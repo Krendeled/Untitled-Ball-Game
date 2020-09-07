@@ -1,0 +1,20 @@
+{
+    "name": "UntitledBallGame",
+    "references": [
+        "GUID:26bc66053275ba94da73f994b40df894",
+        "GUID:3d0848b69bf2dd24d997968269ecf620",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:749131e832fe7b24cb67b2ece9ca2075",
+        "GUID:e420720ed00e7af4ca3352b50cbe6243",
+        "GUID:da861b5dd014b284db57b5da573a3e81"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

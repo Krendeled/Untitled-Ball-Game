@@ -1,0 +1,19 @@
+{
+    "name": "UntitledBallGame.Editor",
+    "references": [
+        "GUID:749131e832fe7b24cb67b2ece9ca2075",
+        "GUID:2205867d2b4cace48a5bbddbee66e710",
+        "GUID:466d4cb32fd66ef4f99747d4eb7191d9"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,0 +1,39 @@
+#Box {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: #151515;
+    border-width: 1;
+    border-top-left-radius: 5;
+    border-top-right-radius: 5;
+    padding: 5;
+}
+
+#Header {
+    align-self: center;
+    -unity-font-style: bold;
+    font-size: 12;
+    padding-bottom: 5;
+}
+
+#RefreshButton {
+    color: white;
+    -unity-text-align: lower-center;
+}
+
+#ImplementationsLabel {
+    color: lawngreen;
+    overflow: hidden;
+    flex: 0 1 auto;
+    margin-left: 3;
+}
+
+#HorizontalHolder {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Splitter {
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 2;
+    margin-bottom: 5;
+}

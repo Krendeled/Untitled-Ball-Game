@@ -1,0 +1,16 @@
+{
+    "name": "UntitledBallGame.InputManagement",
+    "references": [
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:26bc66053275ba94da73f994b40df894"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

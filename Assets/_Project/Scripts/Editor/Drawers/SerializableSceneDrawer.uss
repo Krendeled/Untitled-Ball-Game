@@ -1,0 +1,19 @@
+Label {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgb(68, 138, 255);
+}
+
+#Box {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgb(21, 21, 21);
+    border-width: 1;
+    border-radius: 5;
+    padding: 2;
+    margin-top: 2;
+    margin-bottom: 2;
+}
+
+PopupField {
+    align-self: stretch;
+}
