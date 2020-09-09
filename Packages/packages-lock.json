@@ -7,13 +7,6 @@
       "dependencies": {},
       "hash": "cde43d8216f20460c4aa453e269fcb13efdff86d"
     },
-    "com.malee.reorderablelist": {
-      "version": "https://github.com/cfoulston/Unity-Reorderable-List.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "ac1f508240fb752b1f9d7c222c231d7f2a33df87"
-    },
     "com.unity.2d.animation": {
       "version": "4.2.5",
       "depth": 1,
