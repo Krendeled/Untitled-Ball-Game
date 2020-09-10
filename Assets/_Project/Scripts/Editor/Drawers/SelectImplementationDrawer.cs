@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 using UntitledBallGame.SceneManagement;
 using UntitledBallGame.Serialization;
@@ -19,11 +20,7 @@ namespace UntitledBallGame.Editor.Drawers
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var scenes = SceneHelper.GetScenePaths();
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(_uxmlPath);
-            _root = visualTree.CloneTree(); 
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(_ussPath);
-            _root.styleSheets.Add(styleSheet);
+            _root = GetRoot();
 
             RefreshImplementations();
 
@@ -53,18 +50,14 @@ namespace UntitledBallGame.Editor.Drawers
                 selectedValue = type.FullName;
 
             var impPopup = new PopupField<string>("Implementation", typeStrings, selectedValue);
+
+            var hiddenTypeField = _root.Q<TextField>("HiddenTypeField");
+            hiddenTypeField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt.newValue, impPopup));
             
-            var impField = new TextField();
-            impField.style.height = 0;
-            impField.style.visibility = Visibility.Hidden;
-            impField.BindProperty(_serializedTypeProperty);
-            
-            impField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt.newValue, impPopup));
-            impPopup.RegisterValueChangedCallback(evt => OnTypeSelected(evt.newValue, impField));
+            impPopup.RegisterValueChangedCallback(evt => OnTypeSelected(evt.newValue, hiddenTypeField));
 
             impHolder.Add(impPopup);
-            impHolder.Add(impField);
-            
+
             var impLabel = _root.Q<Label>("ImplementationsLabel");
             impLabel.text = $"Found {_implementations.Count()} implementations";
         }

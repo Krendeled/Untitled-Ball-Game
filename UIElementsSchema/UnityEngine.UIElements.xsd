@@ -98,6 +98,7 @@
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
         <xs:attribute default="" name="binding-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="text" type="xs:string" use="optional" />
+        <xs:attribute default="false" name="display-tooltip-when-elided" type="xs:boolean" use="optional" />
         <xs:anyAttribute processContents="lax" />
       </xs:restriction>
     </xs:complexContent>
@@ -118,6 +119,7 @@
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
         <xs:attribute default="" name="binding-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="text" type="xs:string" use="optional" />
+        <xs:attribute default="false" name="display-tooltip-when-elided" type="xs:boolean" use="optional" />
         <xs:attribute default="0" name="delay" type="xs:long" use="optional" />
         <xs:attribute default="0" name="interval" type="xs:long" use="optional" />
         <xs:anyAttribute processContents="lax" />
@@ -436,6 +438,7 @@
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
         <xs:attribute default="" name="binding-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="text" type="xs:string" use="optional" />
+        <xs:attribute default="false" name="display-tooltip-when-elided" type="xs:boolean" use="optional" />
         <xs:anyAttribute processContents="lax" />
       </xs:restriction>
     </xs:complexContent>
@@ -577,6 +580,7 @@
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
         <xs:attribute default="" name="binding-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="text" type="xs:string" use="optional" />
+        <xs:attribute default="false" name="display-tooltip-when-elided" type="xs:boolean" use="optional" />
         <xs:anyAttribute processContents="lax" />
       </xs:restriction>
     </xs:complexContent>
@@ -628,6 +632,7 @@
         <xs:attribute default="" name="style" type="xs:string" use="optional" />
         <xs:attribute default="" name="binding-path" type="xs:string" use="optional" />
         <xs:attribute default="" name="text" type="xs:string" use="optional" />
+        <xs:attribute default="false" name="display-tooltip-when-elided" type="xs:boolean" use="optional" />
         <xs:anyAttribute processContents="lax" />
       </xs:restriction>
     </xs:complexContent>

@@ -1,0 +1,14 @@
+﻿.Container {
+    flex-direction: row;
+}
+
+.DragHandle {
+    width: 30;
+    height: 30;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.Property {
+    height: 30;
+    flex-grow: 1;
+}
