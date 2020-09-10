@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UntitledBallGame.SceneManagement;
 
 [CreateAssetMenu(fileName = "NewSceneProfile", menuName = "Scene Profile")]
 public class SceneProfile : ScriptableObject
 {
-	[SerializeField] private List<SerializableScene> _scenes = new List<SerializableScene>();
+	public List<SerializableScene> scenes = new List<SerializableScene>();
 }

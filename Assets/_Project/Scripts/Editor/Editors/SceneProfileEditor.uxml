@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <engine:VisualElement class="Box">
+        <engine:VisualElement class="Header">
+            <engine:Label class="Title" text="Scenes"/>
+        </engine:VisualElement>
+        <editor:VisualSplitter class="Splitter"/>
+        <engine:ListView binding-path="scenes" reorderable="true" item-height="30" show-bound-collection-size="false" selection-type="None"/>
+        <editor:IntegerField name="HiddenListSizeField" binding-path="scenes.Array.size"/>
+    </engine:VisualElement>
+    <engine:VisualElement name="ButtonContainer">
+        <engine:Button name="RemoveButton" text="-"/>
+        <engine:Button name="AddButton" text="+"/>
+    </engine:VisualElement>
+</engine:UXML>

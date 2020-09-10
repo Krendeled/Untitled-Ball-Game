@@ -18,10 +18,7 @@ namespace UntitledBallGame.Editor.Drawers
 
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
-            var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(_uxmlPath); 
-            _root = visualTree.CloneTree();
-            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(_ussPath);
-            _root.styleSheets.Add(styleSheet);
+            _root = GetRoot();
 
             _scenePathProperty = property.FindPropertyRelative("_scenePath");
 
@@ -42,30 +39,31 @@ namespace UntitledBallGame.Editor.Drawers
             var scenePopup = new PopupField<string>("Scene", _sceneNames, selectedScene,
                 SceneHelper.GetNameFromPath,
                 SceneHelper.GetNameFromPath);
-            
-            
-            
+
             var sceneField = new TextField();
             sceneField.style.height = 0;
             sceneField.style.visibility = Visibility.Hidden;
             sceneField.BindProperty(_scenePathProperty);
-            
-            sceneField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt.newValue, scenePopup));
-            scenePopup.RegisterValueChangedCallback(evt => OnSceneSelected(evt.newValue, sceneField));
-            
+
+            sceneField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt, scenePopup));
+            scenePopup.RegisterValueChangedCallback(evt => OnSceneSelected(evt, sceneField));
+
             sceneHolder.Add(scenePopup);
             sceneHolder.Add(sceneField);
         }
 
-        private void OnTextFieldChanged(string newValue, PopupField<string> popupField)
+        private void OnTextFieldChanged(ChangeEvent<string> evt, PopupField<string> popupField)
         {
-            if (popupField.value != newValue)
-                popupField.value = newValue;
+            if (string.IsNullOrEmpty(evt.newValue) == false && popupField.value != evt.newValue)
+            {
+                popupField.value = evt.newValue;
+            }
         }
         
-        private void OnSceneSelected(string newValue, TextField textField)
+        private void OnSceneSelected(ChangeEvent<string> evt, TextField textField)
         {
-            textField.value = newValue;
+            if (string.IsNullOrEmpty(evt.newValue) == false)
+                textField.value = evt.newValue;
         }
     }
 }

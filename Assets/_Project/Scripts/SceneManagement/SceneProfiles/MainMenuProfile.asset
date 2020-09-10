@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59af8f37016aed846a0e73b651a4e273, type: 3}
-  m_Name: NewSceneProfile
+  m_Name: MainMenuProfile
   m_EditorClassIdentifier: 
-  _scenes:
-  - _sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
-    _scenePath: Assets/_Project/Scenes/Levels/Level1.unity
+  scenes:
+  - _sceneAsset: {fileID: 102900000, guid: 4a7e1a6d59013aa46940223545d3d871, type: 3}
+    _scenePath: Assets/_Project/Scenes/Preload.unity
+  - _sceneAsset: {fileID: 102900000, guid: 0438a4893be1ca54897d4e535b906d8b, type: 3}
+    _scenePath: Assets/_Project/Scenes/UI/MainMenu.unity

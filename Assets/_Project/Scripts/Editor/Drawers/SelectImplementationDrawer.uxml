@@ -14,6 +14,8 @@
             <engine:Label name="ImplementationsLabel"/>
             <engine:Button name="RefreshButton" text="Refresh implementations"/>
         </engine:VisualElement>
-        <engine:VisualElement name="ImplementationHolder"/>
+        <engine:VisualElement name="ImplementationHolder">
+            <engine:TextField name="HiddenTypeField" binding-path="_serializedType"/>
+        </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

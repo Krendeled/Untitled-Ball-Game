@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59af8f37016aed846a0e73b651a4e273, type: 3}
+  m_Name: GameProfile
+  m_EditorClassIdentifier: 
+  scenes:
+  - _sceneAsset: {fileID: 102900000, guid: 4a7e1a6d59013aa46940223545d3d871, type: 3}
+    _scenePath: Assets/_Project/Scenes/Preload.unity
+  - _sceneAsset: {fileID: 102900000, guid: 16ccd0bd04da8f348b6fe82eca04d047, type: 3}
+    _scenePath: Assets/_Project/Scenes/Base.unity
+  - _sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+    _scenePath: Assets/_Project/Scenes/Levels/Level1.unity
+  - _sceneAsset: {fileID: 102900000, guid: 02895e55f7e7a764b99efe9ade7ea34b, type: 3}
+    _scenePath: Assets/_Project/Scenes/UI/GameUI.unity
