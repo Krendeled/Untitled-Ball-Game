@@ -84,6 +84,8 @@ namespace UntitledBallGame.GameStates
 
         private bool IsPointerOverPlayer(Camera camera)
         {
+            var v = Context.InputManager.GetPointerPosition();
+            var c = camera.ScreenToWorldPoint(Context.InputManager.GetPointerPosition());
             return Physics2D.Raycast(camera.ScreenToWorldPoint(Context.InputManager.GetPointerPosition()),
                 Vector2.zero,
                 0,

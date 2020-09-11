@@ -24,6 +24,7 @@ namespace UntitledBallGame.InputManagement
             _cameraZoom = new SmoothFloat();
 
             Controls = new Controls();
+            Controls.UI.Enable();
         }
 
         private void OnEnable()

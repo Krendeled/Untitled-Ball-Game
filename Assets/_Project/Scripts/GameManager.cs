@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UntitledBallGame.GameStates;
 using UntitledBallGame.GlobalStates;
@@ -23,9 +24,15 @@ namespace UntitledBallGame
 
         private void Awake()
         {
+            Debug.Log(_initialState);
             DontDestroyOnLoad(this);
             DOTween.Init();
+            
+            _sceneProfile.LoadScenes();
+        }
 
+        private void Start()
+        {
             var inputManager = InputManager.Instance;
 
             TransitionScreen transitionScreen = null;

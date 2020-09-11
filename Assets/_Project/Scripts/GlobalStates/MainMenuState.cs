@@ -17,9 +17,7 @@ namespace UntitledBallGame.GlobalStates
         public override void Enter()
         {
             base.Enter();
-
-            Context.InputManager.Controls.UI.Enable();
-
+            
             _mainMenu = Object.FindObjectOfType<MainMenu>(true);
             _mainMenu.LevelScreen.CreateLevelButtons(GameSceneManager.Levels.Select(scene => scene.Name));
 

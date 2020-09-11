@@ -40,11 +40,11 @@ namespace UntitledBallGame.Editor.Editors
                     UpdateListViewHeight(profile.scenes.Count);
                 
                 var addButton = _root.Q<Button>("AddButton");
-                addButton.clicked += AddButtonOnClicked;
+                addButton.clicked += OnAddButtonClicked;
                 var removeButton = _root.Q<Button>("RemoveButton");
-                removeButton.clicked += RemoveButtonOnClicked;
+                removeButton.clicked += OnRemoveButtonClicked;
                 var loadButton = _root.Q<Button>("LoadButton");
-                loadButton.clicked += LoadScenes;
+                loadButton.clicked += OnLoadButtonClicked;
 
                 return _root;
             }
@@ -91,7 +91,7 @@ namespace UntitledBallGame.Editor.Editors
                 _listView.AddToSelection(selectedIdx);
             }
 
-            private void RemoveButtonOnClicked()
+            private void OnRemoveButtonClicked()
             {
                 var profile = serializedObject.targetObject as SceneProfile;
 
@@ -106,7 +106,7 @@ namespace UntitledBallGame.Editor.Editors
                 _listView.ClearSelection();
             }
 
-            private void AddButtonOnClicked()
+            private void OnAddButtonClicked()
             {
                 var profile = serializedObject.targetObject as SceneProfile;
                 if (profile == null)
@@ -114,28 +114,12 @@ namespace UntitledBallGame.Editor.Editors
                 profile.scenes.Add(new SerializableScene());
             }
 
-            private void LoadScenes()
+            private void OnLoadButtonClicked()
             {
-                var loadedScenes = new Scene[EditorSceneManager.loadedSceneCount];
-                for (int i = 0; i < EditorSceneManager.loadedSceneCount; i++)
-                {
-                    loadedScenes[i] = SceneManager.GetSceneAt(i);
-                }
-                
                 var profile = serializedObject.targetObject as SceneProfile;
-                for (var i = 0; i < profile.scenes.Count; i++)
-                {
-                    var s = EditorSceneManager.OpenScene(profile.scenes[i].ScenePath, OpenSceneMode.Additive);
-                    
-                    if (i == 0)
-                        SceneManager.SetActiveScene(s);
-                }
-
-                foreach (var scene in loadedScenes)
-                {
-                    if (profile.scenes.FirstOrDefault(s => s.ScenePath == scene.path) == null)
-                        EditorSceneManager.CloseScene(scene, true);
-                }
+                if (profile == null)
+                    return;
+                profile.LoadScenes();
             }
         }
     }
