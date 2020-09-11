@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using UntitledBallGame.SceneManagement;
 
@@ -41,6 +43,8 @@ namespace UntitledBallGame.Editor.Editors
                 addButton.clicked += AddButtonOnClicked;
                 var removeButton = _root.Q<Button>("RemoveButton");
                 removeButton.clicked += RemoveButtonOnClicked;
+                var loadButton = _root.Q<Button>("LoadButton");
+                loadButton.clicked += LoadScenes;
 
                 return _root;
             }
@@ -108,6 +112,30 @@ namespace UntitledBallGame.Editor.Editors
                 if (profile == null)
                     return;
                 profile.scenes.Add(new SerializableScene());
+            }
+
+            private void LoadScenes()
+            {
+                var loadedScenes = new Scene[EditorSceneManager.loadedSceneCount];
+                for (int i = 0; i < EditorSceneManager.loadedSceneCount; i++)
+                {
+                    loadedScenes[i] = SceneManager.GetSceneAt(i);
+                }
+                
+                var profile = serializedObject.targetObject as SceneProfile;
+                for (var i = 0; i < profile.scenes.Count; i++)
+                {
+                    var s = EditorSceneManager.OpenScene(profile.scenes[i].ScenePath, OpenSceneMode.Additive);
+                    
+                    if (i == 0)
+                        SceneManager.SetActiveScene(s);
+                }
+
+                foreach (var scene in loadedScenes)
+                {
+                    if (profile.scenes.FirstOrDefault(s => s.ScenePath == scene.path) == null)
+                        EditorSceneManager.CloseScene(scene, true);
+                }
             }
         }
     }

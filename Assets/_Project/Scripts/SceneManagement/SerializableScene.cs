@@ -25,7 +25,8 @@ namespace UntitledBallGame.SceneManagement
 #endif
         
         [SerializeField] private string _scenePath = string.Empty;
-
+        public string ScenePath => _scenePath;
+        
         public SerializableScene() { }
 
         public void OnBeforeSerialize()

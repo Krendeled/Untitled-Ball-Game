@@ -15,5 +15,6 @@
     <engine:VisualElement class="button-container">
         <engine:Button name="RemoveButton" text="-"/>
         <engine:Button name="AddButton" text="+"/>
+        <engine:Button name="LoadButton" text="Load"/>
     </engine:VisualElement>
 </engine:UXML>
