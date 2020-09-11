@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialState:
-    _serializedType: UntitledBallGame.GlobalStates.MainMenuState, UntitledBallGame,
+    _serializedType: UntitledBallGame.GlobalStates.GameplayState, UntitledBallGame,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!4 &1306216670
 Transform:
