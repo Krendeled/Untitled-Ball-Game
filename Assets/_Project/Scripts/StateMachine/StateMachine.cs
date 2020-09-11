@@ -34,7 +34,7 @@ namespace UntitledBallGame.StateMachine
 
             if (newState == null)
             {
-                Debug.Log($"[{nameof(StateMachine<TState>)}] There is no {nameof(TState)}.");
+                Debug.Log($"[{nameof(StateMachine<TState>)}] There is no {typeof(TState).Name}.");
                 return;
             }
 
@@ -60,7 +60,7 @@ namespace UntitledBallGame.StateMachine
 
             if (newState == null)
             {
-                Debug.Log($"[{nameof(StateMachine<TState>)}] There is no {nameof(TState)}.");
+                Debug.Log($"[{nameof(StateMachine<TState>)}] There is no {typeof(TState).Name}.");
                 return;
             }
 

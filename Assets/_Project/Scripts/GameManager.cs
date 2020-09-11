@@ -20,7 +20,6 @@ namespace UntitledBallGame
 
         private void Awake()
         {
-            Debug.Log(_initialState);
             DontDestroyOnLoad(this);
             DOTween.Init();
 
@@ -68,17 +67,17 @@ namespace UntitledBallGame
 
             var gameplayState = new GameplayState(globalContext, gameStateMachine, SetupContextCallback);
 
+            gameStateMachine.AddState(new EnteringGameState(gameplayState, gameContext));
+            gameStateMachine.AddState(new EditState(gameplayState, gameContext));
+            gameStateMachine.AddState(new PlayState(gameplayState, gameContext));
+            gameStateMachine.AddState(new WaitState(gameplayState, gameContext));
+            
             _stateMachine.AddState(new MainMenuState(globalContext));
             _stateMachine.AddState(new PauseState(globalContext));
             _stateMachine.AddState(new WinState(globalContext));
             _stateMachine.AddState(gameplayState);
             
             _stateMachine.SetState(_initialState);
-
-            gameStateMachine.AddState(new EnteringGameState(gameplayState, gameContext));
-            gameStateMachine.AddState(new EditState(gameplayState, gameContext));
-            gameStateMachine.AddState(new PlayState(gameplayState, gameContext));
-            gameStateMachine.AddState(new WaitState(gameplayState, gameContext));
         }
 
         private void Update()
