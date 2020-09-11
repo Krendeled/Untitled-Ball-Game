@@ -27,7 +27,7 @@ namespace UntitledBallGame.Editor.Drawers
 
             _serializedTypeProperty = property.FindPropertyRelative("_serializedType");
             if (_implementations.Contains(GetSerializedType()) == false)
-                _serializedTypeProperty.stringValue = _implementations[0].FullName;
+                _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
 
             SetupControls(property);
 
@@ -43,14 +43,14 @@ namespace UntitledBallGame.Editor.Drawers
             
             var impHolder = _root.Q<VisualElement>("ImplementationHolder");
 
-            var typeStrings = _implementations.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToList();
+            var displayedTypes = _implementations.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToList();
             var selectedValue = ClassTypeReference.NoneElement;
 
             var type = GetSerializedType();
-            if (type != null && !string.IsNullOrEmpty(type.FullName))
+            if (type != null)
                 selectedValue = type.FullName;
 
-            var impPopup = new PopupField<string>("Implementation", typeStrings, selectedValue);
+            var impPopup = new PopupField<string>("Implementation", displayedTypes, selectedValue);
 
             var hiddenTypeField = _root.Q<TextField>("HiddenTypeField");
             hiddenTypeField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt.newValue, impPopup));
@@ -65,13 +65,18 @@ namespace UntitledBallGame.Editor.Drawers
 
         private void OnTextFieldChanged(string newValue, PopupField<string> popupField)
         {
-            if (newValue != popupField.value)
-                popupField.value = newValue;
+            // if (newValue != popupField.value)
+            //     popupField.value = newValue;
         }
 
         private void OnTypeSelected(string newValue, TextField textField)
         {
-            textField.value = newValue;
+            var foundType = _implementations.FirstOrDefault(i => i.FullName == newValue);
+
+            if (foundType != null)
+                textField.value = foundType.AssemblyQualifiedName;
+            else
+                textField.value = newValue;
         }
 
         private Type GetSerializedType()
@@ -85,7 +90,7 @@ namespace UntitledBallGame.Editor.Drawers
         {
             if (attribute is SelectImplementationAttribute implAttribute)
             {
-                _implementations = ReflectionUtility.GetImplementations(implAttribute.FieldType,
+                _implementations = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
                     t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object)));
             }
         }

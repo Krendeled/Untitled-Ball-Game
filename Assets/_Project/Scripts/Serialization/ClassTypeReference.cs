@@ -27,10 +27,7 @@ namespace UntitledBallGame.Serialization
 
 		public void OnBeforeSerialize()
 		{
-			if (_type == null || string.IsNullOrEmpty(_type.FullName))
-				_serializedType = NoneElement;
-			else
-				_serializedType = _type.FullName;
+			_serializedType = _type == null ? NoneElement : _type.AssemblyQualifiedName;
 		} 
 
 		public void OnAfterDeserialize()
@@ -38,9 +35,9 @@ namespace UntitledBallGame.Serialization
 			_type = CachedTypes.GetType(_serializedType);
 		} 
 	
-		public static implicit operator Type(ClassTypeReference testType)
+		public static implicit operator Type(ClassTypeReference typeReference)
 		{
-			return testType._type;
+			return typeReference._type;
 		}
 
 		public static implicit operator ClassTypeReference(Type type)
@@ -50,7 +47,7 @@ namespace UntitledBallGame.Serialization
 
 		public override string ToString()
 		{
-			return _type == null ? NoneElement : _type.FullName;
+			return _type == null ? NoneElement : _type.AssemblyQualifiedName;
 		}
 	}
 }

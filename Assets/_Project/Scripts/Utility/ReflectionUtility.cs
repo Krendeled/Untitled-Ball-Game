@@ -6,7 +6,7 @@ namespace UntitledBallGame.Utility
 {
     public static class ReflectionUtility
     {
-        public static List<Type> GetImplementations(Type type, Predicate<Type> predicate = null)
+        public static List<Type> GetSubtypes(Type type, Predicate<Type> predicate = null)
         {
             if (predicate == null)
                 predicate = t => true;

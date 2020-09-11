@@ -38,7 +38,7 @@ namespace UntitledBallGame.Editor.Drawers
         {
             if (attribute is SelectScriptableObjectAttribute attr)
             {
-                _implementations = ReflectionUtility.GetImplementations(attr.ScriptableType,
+                _implementations = ReflectionUtility.GetSubtypes(attr.ScriptableType,
                     t => !t.IsAbstract);
             }
         }

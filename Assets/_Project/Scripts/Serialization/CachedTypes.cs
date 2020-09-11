@@ -11,7 +11,9 @@ namespace UntitledBallGame.Serialization
         {
             if (TypeCache.TryGetValue(typeName, out Type type)) return type;
 
-            type = !string.IsNullOrEmpty(typeName) ? Type.GetType(typeName) : null;
+            type = Type.GetType(typeName);
+            if (type == null) return null;
+            
             TypeCache[typeName] = type;
             return type;
         }
