@@ -65,8 +65,12 @@ namespace UntitledBallGame.Editor.Drawers
 
         private void OnTextFieldChanged(string newValue, PopupField<string> popupField)
         {
-            // if (newValue != popupField.value)
-            //     popupField.value = newValue;
+            var foundType = _implementations.FirstOrDefault(i => i.AssemblyQualifiedName == newValue);
+
+            if (newValue == ClassTypeReference.NoneElement)
+                popupField.value = newValue;
+            else if (foundType != null && foundType.FullName != popupField.value)
+                popupField.value = foundType.FullName;
         }
 
         private void OnTypeSelected(string newValue, TextField textField)
