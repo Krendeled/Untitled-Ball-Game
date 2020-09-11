@@ -17,13 +17,10 @@ namespace UntitledBallGame.Editor.Editors
             private StyleSheet _itemStyle;
             
             private VisualElement _root;
-            private SerializedProperty _scenesProperty;
             private ListView _listView;
 
             public override VisualElement CreateInspectorGUI()
             {
-                _scenesProperty = serializedObject.FindProperty("scenes");
-                
                 _root = GetRoot();
 
                 _itemLayout = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
@@ -37,8 +34,10 @@ namespace UntitledBallGame.Editor.Editors
 
                 var hiddenSizeField = _root.Q<IntegerField>("HiddenListSizeField");
                 hiddenSizeField.RegisterValueChangedCallback(evt => UpdateListViewHeight(evt.newValue));
+                
                 var profile = serializedObject.targetObject as SceneProfile;
-                UpdateListViewHeight(profile.scenes.Count);
+                if (profile != null)
+                    UpdateListViewHeight(profile.scenes.Count);
                 
                 var addButton = _root.Q<Button>("AddButton");
                 addButton.clicked += AddButtonOnClicked;
@@ -95,6 +94,9 @@ namespace UntitledBallGame.Editor.Editors
             {
                 var profile = serializedObject.targetObject as SceneProfile;
 
+                if (profile == null)
+                    return;
+
                 foreach (var idx in _listView.selectedIndices)
                 {
                     profile.scenes[idx] = null;
@@ -106,6 +108,8 @@ namespace UntitledBallGame.Editor.Editors
             private void AddButtonOnClicked()
             {
                 var profile = serializedObject.targetObject as SceneProfile;
+                if (profile == null)
+                    return;
                 profile.scenes.Add(new SerializableScene());
             }
         }
