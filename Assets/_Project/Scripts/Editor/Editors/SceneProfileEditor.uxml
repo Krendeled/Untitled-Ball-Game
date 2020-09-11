@@ -5,15 +5,14 @@
     xmlns:editor="UnityEditor.UIElements"
     xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
 >
-    <engine:VisualElement class="Box">
-        <engine:VisualElement class="Header">
-            <engine:Label class="Title" text="Scenes"/>
-        </engine:VisualElement>
-        <editor:VisualSplitter class="Splitter"/>
+    <engine:Style src="../Templates/DefaultStyles.uss"/>
+    <engine:VisualElement class="root-container">
+        <engine:Label class="header" text="Scenes"/>
+        <editor:VisualSplitter class="splitter"/>
         <engine:ListView binding-path="scenes" reorderable="true" item-height="30" show-bound-collection-size="false" selection-type="None"/>
-        <editor:IntegerField name="HiddenListSizeField" binding-path="scenes.Array.size"/>
+        <editor:IntegerField name="HiddenListSizeField" class="hidden" binding-path="scenes.Array.size"/>
     </engine:VisualElement>
-    <engine:VisualElement name="ButtonContainer">
+    <engine:VisualElement class="button-container">
         <engine:Button name="RemoveButton" text="-"/>
         <engine:Button name="AddButton" text="+"/>
     </engine:VisualElement>

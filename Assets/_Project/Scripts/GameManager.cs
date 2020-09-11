@@ -16,6 +16,8 @@ namespace UntitledBallGame
     {
         [SelectImplementation(typeof(GlobalStateBase)), SerializeField]
         private ClassTypeReference _initialState;
+        [SelectScriptableObject(typeof(SceneProfile)), SerializeField]
+        private SceneProfile _sceneProfile;
 
         private StateMachine<GlobalStateBase> _stateMachine;
 

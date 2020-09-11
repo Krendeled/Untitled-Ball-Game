@@ -1,0 +1,25 @@
+﻿.root-container {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgb(21, 21, 21);
+    border-width: 1;
+    padding: 2;
+    border-top-left-radius: 5;
+    border-top-right-radius: 5;
+}
+
+.header {
+    align-self: center;
+    -unity-font-style: bold;
+    font-size: 12;
+    padding-bottom: 5;
+}
+
+.hidden {
+    display: none;
+}
+
+.splitter {
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 2;
+    margin-bottom: 5;
+}

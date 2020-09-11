@@ -1,7 +1,4 @@
-﻿ListView {
-}
-
-#ButtonContainer {
+﻿.button-container {
     flex-direction: row;
 }
 
@@ -12,35 +9,4 @@ Button {
     padding: 0;
     margin: 0;
     font-size: 20;
-}
-
-#HiddenListSizeField {
-    display: none;
-}
-
-.Box {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-color: #151515;
-    border-width: 1;
-    border-top-left-radius: 5;
-    border-top-right-radius: 5;
-    padding: 5;
-}
-
-.Title {
-    font-size: 14;
-    -unity-font-style: bold;
-}
-
-.Splitter {
-    background-color: rgba(255, 255, 255, 0.1);
-    height: 2;
-    margin-bottom: 5;
-}
-
-.Header {
-    align-self: center;
-    -unity-font-style: bold;
-    font-size: 12;
-    padding-bottom: 5;
 }

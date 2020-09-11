@@ -5,7 +5,8 @@
         xmlns:editor="UnityEditor.UIElements"
         xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
 >
-    <engine:VisualElement name="Box">
-        <engine:VisualElement name="SceneHolder" />
+    <engine:Style src="../Templates/DefaultStyles.uss"/>
+    <engine:VisualElement class="scene-holder">
+        <engine:TextField name="HiddenScenePathField" class="hidden" binding-path="scenePath"/>
     </engine:VisualElement>
 </engine:UXML>

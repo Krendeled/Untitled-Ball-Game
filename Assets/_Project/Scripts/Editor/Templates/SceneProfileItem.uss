@@ -1,14 +1,15 @@
-﻿.Container {
+﻿.scene-profile-holder {
     flex-direction: row;
 }
 
-.DragHandle {
+.drag-handle {
     width: 30;
     height: 30;
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.Property {
+.property-field {
     height: 30;
     flex-grow: 1;
+    justify-content: center;
 }

@@ -39,7 +39,7 @@ namespace UntitledBallGame.Editor.Drawers
             var refreshButton = _root.Q<Button>("RefreshButton");
             refreshButton.clicked += RefreshImplementations;
             
-            _root.Q<Label>("Title").text = property.displayName;
+            _root.Q<Label>(className:"header").text = property.displayName;
             
             var impHolder = _root.Q<VisualElement>("ImplementationHolder");
 

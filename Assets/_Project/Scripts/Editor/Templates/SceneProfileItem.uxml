@@ -5,8 +5,9 @@
     xmlns:editor="UnityEditor.UIElements"
     xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
 >
-    <engine:VisualElement class="Container">
-        <engine:VisualElement class="DragHandle"/>
-        <editor:PropertyField class="Property"/> 
+    <engine:Style src="SceneProfileItem.uss"/>
+    <engine:VisualElement class="scene-profile-holder">
+        <engine:VisualElement class="drag-handle"/>
+        <editor:PropertyField class="property-field"/>
     </engine:VisualElement>
 </engine:UXML>

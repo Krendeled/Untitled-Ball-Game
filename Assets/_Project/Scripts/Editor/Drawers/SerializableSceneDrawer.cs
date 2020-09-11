@@ -29,7 +29,7 @@ namespace UntitledBallGame.Editor.Drawers
 
         private void SetupControls(SerializedProperty property)
         {
-            var sceneHolder = _root.Q<VisualElement>("SceneHolder");
+            var sceneHolder = _root.Q<VisualElement>(className:"scene-holder");
             
             _sceneNames = SceneHelper.GetScenePaths().ToList();
             var selectedScene = _scenePathProperty.stringValue;
@@ -40,16 +40,13 @@ namespace UntitledBallGame.Editor.Drawers
                 SceneHelper.GetNameFromPath,
                 SceneHelper.GetNameFromPath);
 
-            var sceneField = new TextField();
-            sceneField.style.height = 0;
-            sceneField.style.visibility = Visibility.Hidden;
-            sceneField.BindProperty(_scenePathProperty);
+            var scenePathField = _root.Q<TextField>("HiddenScenePathField");
 
-            sceneField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt, scenePopup));
-            scenePopup.RegisterValueChangedCallback(evt => OnSceneSelected(evt, sceneField));
+            scenePathField.RegisterValueChangedCallback(evt => OnTextFieldChanged(evt, scenePopup));
+            scenePopup.RegisterValueChangedCallback(evt => OnSceneSelected(evt, scenePathField));
 
             sceneHolder.Add(scenePopup);
-            sceneHolder.Add(sceneField);
+            sceneHolder.Add(scenePathField);
         }
 
         private void OnTextFieldChanged(ChangeEvent<string> evt, PopupField<string> popupField)

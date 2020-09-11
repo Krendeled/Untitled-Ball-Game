@@ -25,9 +25,7 @@ namespace UntitledBallGame.Editor.Editors
 
                 _itemLayout = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
                     "Assets/_Project/Scripts/Editor/Templates/SceneProfileItem.uxml");
-                _itemStyle = AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                    "Assets/_Project/Scripts/Editor/Templates/SceneProfileItem.uss");
-                
+
                 _listView = _root.Q<ListView>();
                 _listView.makeItem = MakeItem;
                 _listView.bindItem = BindItem;
@@ -55,17 +53,16 @@ namespace UntitledBallGame.Editor.Editors
             private VisualElement MakeItem()
             {
                 var element = _itemLayout.CloneTree();
-                element.styleSheets.Add(_itemStyle);
                 return element;
             }
 
             private void BindItem(VisualElement element, int index)
             {
-                var propertyField = element.Q<PropertyField>(className: "Property");
+                var propertyField = element.Q<PropertyField>(className: "property-field");
                 propertyField.BindProperty(_listView.itemsSource[index] as SerializedProperty);
                 propertyField.RegisterCallback<MouseDownEvent>(PropertyFieldOnMouseDown);
                 
-                var dragHandle = element.Q(className: "DragHandle");
+                var dragHandle = element.Q(className: "drag-handle");
                 dragHandle.RegisterCallback<MouseDownEvent>(DragHandleOnMouseDown);
             }
 
