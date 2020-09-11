@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd"
+>
+    <engine:VisualElement name="Box">
+        <engine:VisualElement name="Header">
+            <engine:Label name="Title"/>
+        </engine:VisualElement>
+        <editor:VisualSplitter class="Splitter"/>
+        <engine:VisualElement name="HorizontalHolder">
+            <engine:Label name="ImplementationsLabel"/>
+            <engine:Button name="RefreshButton" text="Refresh implementations"/>
+        </engine:VisualElement>
+        <engine:VisualElement name="ImplementationHolder">
+            <engine:TextField name="HiddenTypeField" binding-path="_serializedType"/>
+        </engine:VisualElement>
+    </engine:VisualElement>
+</engine:UXML>

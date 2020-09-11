@@ -1,3 +1,15 @@
-﻿{
-	"name": "UntitledBallGame.SceneManagement"
+{
+    "name": "UntitledBallGame.SceneManagement",
+    "references": [
+        "GUID:eb24f738a410e5441b30069c9c286268"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

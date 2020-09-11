@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UntitledBallGame.SceneManagement;
 using UntitledBallGame.Serialization;
+using UntitledBallGame.Utility;
 
 namespace UntitledBallGame.Editor.Drawers
 {
@@ -83,17 +84,10 @@ namespace UntitledBallGame.Editor.Drawers
         private void RefreshImplementations()
         {
             if (attribute is SelectImplementationAttribute implAttribute)
-                _implementations = GetImplementations(implAttribute.FieldType);
-        }
-
-        private List<Type> GetImplementations(Type interfaceType)
-        {
-            return AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes())
-                .Where(p => interfaceType.IsAssignableFrom(p) && 
-                            !p.IsAbstract && 
-                            !p.IsSubclassOf(typeof(UnityEngine.Object)))
-                .OrderBy(t => t.FullName)
-                .ToList();
+            {
+                _implementations = ReflectionUtility.GetImplementations(implAttribute.FieldType,
+                    t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object)));
+            }
         }
     }
 }

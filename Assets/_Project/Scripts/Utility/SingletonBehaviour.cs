@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace UntitledBallGame
+namespace UntitledBallGame.Utility
 {
     public abstract class SingletonBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {

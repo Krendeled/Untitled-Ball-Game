@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UntitledBallGame.Utility;
 
 namespace UntitledBallGame.InputManagement
 {

@@ -24,9 +24,9 @@ namespace UntitledBallGame.Editor.Editors
                 _root = GetRoot();
 
                 _itemLayout = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(
-                    "Assets/_Project/Scripts/Editor/Elements/SceneProfileItem.uxml");
+                    "Assets/_Project/Scripts/Editor/Templates/SceneProfileItem.uxml");
                 _itemStyle = AssetDatabase.LoadAssetAtPath<StyleSheet>(
-                    "Assets/_Project/Scripts/Editor/Elements/SceneProfileItem.uss");
+                    "Assets/_Project/Scripts/Editor/Templates/SceneProfileItem.uss");
                 
                 _listView = _root.Q<ListView>();
                 _listView.makeItem = MakeItem;
