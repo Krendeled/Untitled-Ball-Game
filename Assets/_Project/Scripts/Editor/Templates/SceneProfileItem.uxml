@@ -9,5 +9,6 @@
     <engine:VisualElement class="scene-profile-holder">
         <engine:VisualElement class="drag-handle"/>
         <editor:PropertyField class="property-field"/>
+        <engine:Button class="remove-button" text="-"/>
     </engine:VisualElement>
 </engine:UXML>

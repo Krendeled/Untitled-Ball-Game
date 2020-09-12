@@ -2,7 +2,7 @@
     flex-direction: row;
 }
 
-#RemoveButton, #AddButton {
+.add-button {
     width: 30;
     height: 30;
     background-color: rgba(0, 0, 0, 0.33);
@@ -11,7 +11,11 @@
     font-size: 20;
 }
 
-#LoadButton {
+.load-button {
     margin: 0;
     flex-grow: 1;
+}
+
+.unity-listview-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }

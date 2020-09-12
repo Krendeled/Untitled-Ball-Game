@@ -1,5 +1,5 @@
 ﻿.root-container {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.2);
     border-color: rgb(21, 21, 21);
     border-width: 1;
     padding: 2;

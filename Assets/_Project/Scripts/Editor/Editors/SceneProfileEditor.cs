@@ -39,11 +39,9 @@ namespace UntitledBallGame.Editor.Editors
                 if (profile != null)
                     UpdateListViewHeight(profile.scenes.Count);
                 
-                var addButton = _root.Q<Button>("AddButton");
+                var addButton = _root.Q<Button>(className: "add-button");
                 addButton.clicked += OnAddButtonClicked;
-                var removeButton = _root.Q<Button>("RemoveButton");
-                removeButton.clicked += OnRemoveButtonClicked;
-                var loadButton = _root.Q<Button>("LoadButton");
+                var loadButton = _root.Q<Button>(className: "load-button");
                 loadButton.clicked += OnLoadButtonClicked;
 
                 return _root;
@@ -62,12 +60,17 @@ namespace UntitledBallGame.Editor.Editors
 
             private void BindItem(VisualElement element, int index)
             {
+                var profile = serializedObject.targetObject as SceneProfile;
+                element.AddManipulator(new ListViewItemDragger<SerializableScene>(_listView, profile.scenes));
+                
                 var propertyField = element.Q<PropertyField>(className: "property-field");
                 propertyField.BindProperty(_listView.itemsSource[index] as SerializedProperty);
                 propertyField.RegisterCallback<MouseDownEvent>(PropertyFieldOnMouseDown);
                 
                 var dragHandle = element.Q(className: "drag-handle");
-                dragHandle.RegisterCallback<MouseDownEvent>(DragHandleOnMouseDown);
+                
+                var removeButton = element.Q<Button>(className: "remove-button");
+                removeButton.clicked += () => OnRemoveButtonClicked(index);
             }
 
             private void PropertyFieldOnMouseDown(MouseDownEvent evt)
@@ -91,19 +94,13 @@ namespace UntitledBallGame.Editor.Editors
                 _listView.AddToSelection(selectedIdx);
             }
 
-            private void OnRemoveButtonClicked()
+            private void OnRemoveButtonClicked(int index)
             {
                 var profile = serializedObject.targetObject as SceneProfile;
 
-                if (profile == null)
-                    return;
+                if (profile == null) return;
 
-                foreach (var idx in _listView.selectedIndices)
-                {
-                    profile.scenes[idx] = null;
-                }
-                profile.scenes.RemoveAll(s => s == null);
-                _listView.ClearSelection();
+                profile.scenes.RemoveAt(index);
             }
 
             private void OnAddButtonClicked()

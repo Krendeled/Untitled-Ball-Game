@@ -13,3 +13,17 @@
     flex-grow: 1;
     justify-content: center;
 }
+
+.remove-button {
+    font-size: 20;
+    border-width: 0;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.remove-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.remove-button:active {
+    background-color: rgba(0, 0, 0, 0.2);
+}
