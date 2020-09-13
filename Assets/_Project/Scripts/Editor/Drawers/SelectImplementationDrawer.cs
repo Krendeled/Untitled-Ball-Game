@@ -47,8 +47,7 @@ namespace UntitledBallGame.Editor.Drawers
             var selectedValue = ClassTypeReference.NoneElement;
 
             var type = GetSerializedType();
-            if (type != null)
-                selectedValue = type.FullName;
+            if (type != null) selectedValue = type.FullName;
 
             var impPopup = new PopupField<string>("Implementation", displayedTypes, selectedValue);
 

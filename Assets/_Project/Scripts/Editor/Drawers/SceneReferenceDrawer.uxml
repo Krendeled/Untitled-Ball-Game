@@ -7,6 +7,6 @@
 >
     <engine:Style src="../Templates/DefaultStyles.uss"/>
     <engine:VisualElement class="scene-holder">
-        <engine:TextField name="HiddenScenePathField" class="hidden" binding-path="_scenePath"/>
+        <editor:ObjectField name="HiddenSceneAssetField" class="hidden" binding-path="_sceneAsset"/>
     </engine:VisualElement>
 </engine:UXML>

@@ -9,7 +9,7 @@ using UntitledBallGame.SceneManagement;
 [CreateAssetMenu(fileName = "NewSceneProfile", menuName = "Scene Profile")]
 public class SceneProfile : ScriptableObject
 {
-	public List<SerializableScene> scenes = new List<SerializableScene>();
+	public List<SceneReference> scenes = new List<SceneReference>();
 	
 #if UNITY_EDITOR
 	public void LoadScenes()

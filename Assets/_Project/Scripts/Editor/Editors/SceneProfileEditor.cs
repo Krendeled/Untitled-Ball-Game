@@ -61,14 +61,12 @@ namespace UntitledBallGame.Editor.Editors
             private void BindItem(VisualElement element, int index)
             {
                 var profile = serializedObject.targetObject as SceneProfile;
-                element.AddManipulator(new ListViewItemDragger<SerializableScene>(_listView, profile.scenes));
+                element.AddManipulator(new ListViewItemDragger<SceneReference>(_listView, profile.scenes));
                 
                 var propertyField = element.Q<PropertyField>(className: "property-field");
                 propertyField.BindProperty(_listView.itemsSource[index] as SerializedProperty);
                 propertyField.RegisterCallback<MouseDownEvent>(PropertyFieldOnMouseDown);
-                
-                var dragHandle = element.Q(className: "drag-handle");
-                
+
                 var removeButton = element.Q<Button>(className: "remove-button");
                 removeButton.clicked += () => OnRemoveButtonClicked(index);
             }
@@ -76,22 +74,6 @@ namespace UntitledBallGame.Editor.Editors
             private void PropertyFieldOnMouseDown(MouseDownEvent evt)
             {
                 evt.StopImmediatePropagation();
-            }
-
-            private void DragHandleOnMouseDown(MouseDownEvent evt)
-            {
-                int selectedIdx = -1;
-
-                for (int i = 0; i < _listView.childCount; i++)
-                {
-                    if (_listView[i].worldBound.Contains(evt.mousePosition))
-                        selectedIdx = i;
-                }
-                
-                if (evt.ctrlKey == false)
-                    _listView.ClearSelection();
-                
-                _listView.AddToSelection(selectedIdx);
             }
 
             private void OnRemoveButtonClicked(int index)
@@ -108,7 +90,7 @@ namespace UntitledBallGame.Editor.Editors
                 var profile = serializedObject.targetObject as SceneProfile;
                 if (profile == null)
                     return;
-                profile.scenes.Add(new SerializableScene());
+                profile.scenes.Add(new SceneReference(EditorSceneHelper.GetPathFromBuildIndex(0)));
             }
 
             private void OnLoadButtonClicked()

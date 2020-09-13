@@ -24,7 +24,6 @@ namespace UntitledBallGame
 
         private void Awake()
         {
-            Debug.Log(_initialState);
             DontDestroyOnLoad(this);
             DOTween.Init();
             
