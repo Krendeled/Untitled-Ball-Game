@@ -26,7 +26,7 @@ namespace UntitledBallGame.Editor
                 Debug.LogWarning($"Asset {name} of type {type} was not found.");
                 return string.Empty;
             }
-            else if (assets.Length > 1)
+            if (assets.Length > 1)
             {
                 Debug.LogWarning($"Multiple assets with name {name} of type {type} were found.");
                 return string.Empty;

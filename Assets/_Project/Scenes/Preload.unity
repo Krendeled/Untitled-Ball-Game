@@ -156,7 +156,6 @@ MonoBehaviour:
     _serializedType: UntitledBallGame.GlobalStates.MainMenuState, UntitledBallGame,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
   _sceneProfile: {fileID: 11400000, guid: b65ed609d29bd8d4bae543d9755052ee, type: 2}
-  scene: {fileID: 102900000, guid: 4a7e1a6d59013aa46940223545d3d871, type: 3}
 --- !u!4 &1306216670
 Transform:
   m_ObjectHideFlags: 0

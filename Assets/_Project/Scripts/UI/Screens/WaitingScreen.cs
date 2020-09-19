@@ -1,6 +1,6 @@
 ﻿namespace UntitledBallGame.UI.Screens
 {
-    public class WaitingScreen : UiScreenBase
+    public class WaitingScreen : ScreenBase
     {
     }
 }

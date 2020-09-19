@@ -1,12 +1,9 @@
-namespace UntitledBallGame.SceneManagement
+public enum GameScene
 {
-    public enum GameScene
-    {
-        Preload,
-        Base,
-        MainMenu,
-        GameUi,
-        LevelTransition,
-        Level1,
-    }
+	Preload,
+	Base,
+	MainMenu,
+	GameUI,
+	LevelTransition,
+	Level1,
 }

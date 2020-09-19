@@ -1,6 +1,6 @@
 ﻿namespace UntitledBallGame.UI.Screens
 {
-    public class OptionsScreen : UiScreenBase
+    public class OptionsScreen : ScreenBase
     {
     }
 }

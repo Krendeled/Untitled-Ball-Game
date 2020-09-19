@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UntitledBallGame.UI.Screens
 {
-    public class LevelScreen : UiScreenBase
+    public class LevelScreen : ScreenBase
     {
         [SerializeField] private GameObject buttonPrefab;
         [SerializeField] private Transform parent;

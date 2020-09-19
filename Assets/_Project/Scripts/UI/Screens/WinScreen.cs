@@ -1,14 +1,11 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
-using UntitledBallGame.UI.ScreenAnimations;
 
 namespace UntitledBallGame.UI.Screens
 {
-    public class WinScreen : UiScreenBase
+    public class WinScreen : ScreenBase
     {
-        [SerializeField] private CanvasGroup canvasGroup;
-
         [Header("Buttons")] [SerializeField] private Button restartLevelButton;
         [SerializeField] private Button nextLevelButton;
         [SerializeField] private Button goToMenuButton;
@@ -16,12 +13,6 @@ namespace UntitledBallGame.UI.Screens
         public event Action RestartLevelPressed;
         public event Action NextLevelPressed;
         public event Action GoToMenuPressed;
-
-        protected override void Awake()
-        {
-            base.Awake();
-            Animation = new FadeScreenAnimation(canvasGroup);
-        }
 
         private void OnEnable()
         {

@@ -79,7 +79,7 @@ namespace UntitledBallGame.SceneManagement
 
             loader.ThenLoad((int) GameScene.Base, LoadSceneMode.Additive);
             loader.ThenLoad(lvlBuildIndex, LoadSceneMode.Additive, true);
-            loader.ThenLoad((int) GameScene.GameUi, LoadSceneMode.Additive);
+            loader.ThenLoad((int) GameScene.GameUI, LoadSceneMode.Additive);
 
             loader.InsertCallback(() =>
             {
@@ -113,7 +113,7 @@ namespace UntitledBallGame.SceneManagement
                 LoadLevel(nextLevel.Value.Path, new[]
                     {
                         (GameScene) CurrentLevel.Value.buildIndex,
-                        GameScene.GameUi, GameScene.Base
+                        GameScene.GameUI, GameScene.Base
                     },
                     beforeLoading, afterLoading);
         }
@@ -125,7 +125,7 @@ namespace UntitledBallGame.SceneManagement
             LoadLevel(CurrentLevel.Value.path, new[]
                 {
                     (GameScene) CurrentLevel.Value.buildIndex,
-                    GameScene.GameUi, GameScene.Base
+                    GameScene.GameUI, GameScene.Base
                 },
                 beforeLoading, afterLoading);
         }
@@ -145,7 +145,7 @@ namespace UntitledBallGame.SceneManagement
                     return null;
                 });
 
-            loader.ThenUnload((int) GameScene.GameUi);
+            loader.ThenUnload((int) GameScene.GameUI);
             loader.ThenUnload((int) GameScene.Base);
 
             if (CurrentLevel.HasValue)

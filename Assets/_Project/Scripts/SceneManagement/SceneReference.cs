@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace UntitledBallGame.SceneManagement
@@ -62,7 +59,7 @@ namespace UntitledBallGame.SceneManagement
         public void OnAfterDeserialize()
         {
 #if UNITY_EDITOR
-            EditorApplication.delayCall += HandleAfterDeserialize;
+            HandleAfterDeserialize();
 #endif
         }
 

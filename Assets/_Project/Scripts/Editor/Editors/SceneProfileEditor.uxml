@@ -13,7 +13,7 @@
         <editor:IntegerField name="HiddenListSizeField" class="hidden" binding-path="scenes.Array.size"/>
     </engine:VisualElement>
     <engine:VisualElement class="button-container">
-        <engine:Button class="add-button" text="+"/>
         <engine:Button class="load-button" text="Load"/>
+        <engine:Button class="add-button" text="+"/>
     </engine:VisualElement>
 </engine:UXML>
