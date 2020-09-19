@@ -9,8 +9,8 @@ using UntitledBallGame.Utility;
 namespace UntitledBallGame.Editor.Drawers.IMGUI
 {
     [CustomPropertyDrawer(typeof(ClassTypeReference))]
-    [CustomPropertyDrawer(typeof(SelectImplementationAttribute))]
-    public class SelectImplementationDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SelectTypeAttribute))]
+    public class SelectTypeDrawer : PropertyDrawer
     {
         private Type[] _implementations;
         private SerializedProperty _serializedTypeProperty;
@@ -106,7 +106,7 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
 
         private void RefreshImplementations()
         {
-            if (attribute is SelectImplementationAttribute implAttribute)
+            if (attribute is SelectTypeAttribute implAttribute)
             {
                 _implementations = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
                     t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object))).ToArray();

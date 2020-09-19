@@ -4,11 +4,11 @@ using UnityEngine;
 namespace UntitledBallGame.Serialization
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class SelectImplementationAttribute : PropertyAttribute
+    public class SelectTypeAttribute : PropertyAttribute
     {
         public Type FieldType { get; }
 
-        public SelectImplementationAttribute(Type fieldType)
+        public SelectTypeAttribute(Type fieldType)
         {
             FieldType = fieldType;
         }

@@ -16,7 +16,7 @@ namespace UntitledBallGame
 {
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        [SelectImplementation(typeof(GlobalStateBase)), SerializeField]
+        [SelectType(typeof(GlobalStateBase)), SerializeField]
         private ClassTypeReference _initialState;
         [SelectScriptableObject(typeof(SceneProfile)), SerializeField]
         private SceneProfile _sceneProfile;

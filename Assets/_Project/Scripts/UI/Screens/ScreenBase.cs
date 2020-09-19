@@ -9,9 +9,9 @@ namespace UntitledBallGame.UI.Screens
     {
         [SerializeField] protected GameObject screen;
         
-        [SelectImplementation(typeof(IAnimation)), SerializeReference]
+        [SelectType(typeof(IAnimation)), SerializeReference]
         protected IAnimation ShowAnimation;
-        [SelectImplementation(typeof(IAnimation)), SerializeReference]
+        [SelectType(typeof(IAnimation)), SerializeReference]
         protected IAnimation HideAnimation;
 
         protected virtual void Awake()
