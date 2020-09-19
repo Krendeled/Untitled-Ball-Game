@@ -16,7 +16,7 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 80;
+            return 58;
         }
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -66,24 +66,29 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
 
         private int DrawPopup(Rect position)
         {
-            var labelRect = new Rect(position.x + 6, position.y + 32, 60, 20);
-            var popupRect = new Rect(labelRect.x + labelRect.width, labelRect.y, position.width - labelRect.width - 12, 20);
+            var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
             
             var selectedIndex = 0;
             
             var obj = _serializedProperty.objectReferenceValue;
             if (obj != null) 
                 selectedIndex = Array.IndexOf(_displayedTypes, obj.name);
-
-            EditorGUI.LabelField(labelRect, "Asset");
             
-            return EditorGUI.Popup(popupRect, selectedIndex, _displayedTypes);
+            var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
+
+            return EditorGUI.Popup(popupRect, selectedIndex, _displayedTypes, style);
         }
         
         private bool DrawButton(Rect position)
         {
-            var rect = new Rect(position.x + 6, position.y + 54, position.width - 12, 22);
-            return GUI.Button(rect, "Refresh assets", GUI.skin.button);
+            var rect = new Rect(position.x + position.width - 26, position.y + 32, 20, 20);
+            var icon = EditorGUIUtility.IconContent("d_Refresh");
+            var style = new GUIStyle(GUI.skin.button) 
+            {
+                padding = new RectOffset(0, 0, 0, 0), 
+                margin = new RectOffset(0, 0, 0, 0)
+            };
+            return GUI.Button(rect, icon, style);
         }
         
         private void RefreshAssets()
