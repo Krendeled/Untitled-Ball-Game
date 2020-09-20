@@ -17,5 +17,3 @@ MonoBehaviour:
     _scenePath: Assets/_Project/Scenes/Base.unity
   - _sceneAsset: {fileID: 102900000, guid: 02895e55f7e7a764b99efe9ade7ea34b, type: 3}
     _scenePath: Assets/_Project/Scenes/UI/GameUI.unity
-  - _sceneAsset: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
-    _scenePath: Assets/_Project/Scenes/Levels/Level1.unity

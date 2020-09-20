@@ -43,7 +43,10 @@ namespace UntitledBallGame.GlobalStates
             // TODO: unsub from options events
         }
 
-        private void OnPlay() => _mainMenu.LevelScreen.Show();
+        private void OnPlay()
+        {
+            _mainMenu.LevelScreen.Show();
+        } 
 
         private void OnOptions() => _mainMenu.OptionsScreen.Show();
 

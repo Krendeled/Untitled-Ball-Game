@@ -1,30 +1,39 @@
 ﻿using System;
 using DG.Tweening;
-using NaughtyAttributes;
 using UnityEngine;
 
 namespace UntitledBallGame.UI.Animations
 {
     public class FadeAnimation : IAnimation
     {
-        private readonly CanvasGroup _canvasGroup;
-
-        [Range(0, 1), SerializeField] private float _startValue;
-        [Range(0, 1), SerializeField] private float _endValue;
-        [MinValue(0), SerializeField] private float _duration;
+        public GameObject Target { get; set; }
         public float Duration => _duration;
 
-        public FadeAnimation(GameObject target)
+        private CanvasGroup _canvasGroup;
+
+        public CanvasGroup CanvasGroup
         {
-            if (target.TryGetComponent(out CanvasGroup canvasGroup))
-                _canvasGroup = canvasGroup;
-            else
-                Debug.LogError($"CanvasGroup wasn't found on {target.name}.");
+            get
+            {
+                if (_canvasGroup == null)
+                {
+                    if (Target.TryGetComponent(out CanvasGroup canvasGroup))
+                        _canvasGroup = canvasGroup;
+                    else
+                        Debug.LogError($"CanvasGroup wasn't found on {Target.name}.");
+                }
+
+                return _canvasGroup;
+            }
         }
-        
+
+        [Range(0, 1), SerializeField] private float _alphaStart;
+        [Range(0, 1), SerializeField] private float _alphaEnd;
+        [SerializeField] private float _duration;
+
         public void Play(Action onComplete = null)
         {
-            _canvasGroup.DOFade(_endValue, _duration).From(_startValue).OnComplete(() => { onComplete?.Invoke(); });
+            CanvasGroup.DOFade(_alphaEnd, _duration).From(_alphaStart).OnComplete(() => { onComplete?.Invoke(); });
         }
     }
 }

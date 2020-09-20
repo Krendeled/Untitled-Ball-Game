@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -8,54 +7,73 @@ using UntitledBallGame.Utility;
 
 namespace UntitledBallGame.Editor.Drawers.IMGUI
 {
-    [CustomPropertyDrawer(typeof(ClassTypeReference))]
-    [CustomPropertyDrawer(typeof(SelectTypeAttribute))]
-    public class SelectTypeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SerializeReferencePickerAttribute))]
+    public class SerializeReferencePickerDrawer : PropertyDrawer
     {
-        private Type[] _types;
-        private SerializedProperty _serializedTypeProperty;
-        private string[] _displayedTypes;
+        private Type _baseType;
         private Type _selectedType;
-        
+        private Type[] _implementations;
+        private string[] _displayedTypes;
+        private bool _propertyVisible;
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return 58;
+            float inspectorHeight = 58;
+            if (_propertyVisible && property.isExpanded)
+                return inspectorHeight + EditorGUI.GetPropertyHeight(property, true);
+            if (_propertyVisible)
+                return inspectorHeight + EditorGUIUtility.singleLineHeight;
+            return inspectorHeight;
         }
-
+    
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            _serializedTypeProperty = property.FindPropertyRelative("_serializedType");
-
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 DrawBackground(position);
                 DrawTitle(position, label);
                 DrawSplitter(position);
                 
-                if (_types == null || DrawButton(position))
+                if (!string.IsNullOrEmpty(property.managedReferenceFullTypename))
                 {
-                    RefreshTypes();
-                    RefreshDisplayedTypes();
-                    _selectedType = GetSerializedType();
+                    DrawPropertyField(position, property);
+                    _propertyVisible = true;
+                }
+                else
+                {
+                    _propertyVisible = false;
                 }
                 
-                if (_types.Contains(_selectedType) == false)
-                    _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
+                if (_baseType == null)
+                {
+                    _baseType = property.GetManagedReferenceFieldType();
+                }
                 
-                int i = DrawPopup(position);
+                if (_implementations == null || DrawButton(position))
+                {
+                    RefreshImplementations();
+                    RefreshDisplayedTypes();
+                }
+
+                _selectedType = property.GetManagedReferenceFullType();
+                
+                if (_implementations.Contains(_selectedType) == false)
+                    property.managedReferenceValue = null;
+                
+                int i = DrawPopup(position, property);
                 if (i == 0)
-                    _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
-                else
-                    _serializedTypeProperty.stringValue = _types[i - 1].AssemblyQualifiedName;
+                    property.managedReferenceValue = null;
+                else if (_implementations[i - 1] != _selectedType)
+                    property.managedReferenceValue = Activator.CreateInstance(_implementations[i - 1]);
             }
         }
-
+    
         private void DrawBackground(Rect position)
         {
             var color = new Color(0f, 0f, 0f, 0.2f);
             EditorGUI.DrawRect(position, color);
         }
-
+    
         private void DrawTitle(Rect position, GUIContent label)
         {
             var style = new GUIStyle(GUI.skin.label)
@@ -65,17 +83,17 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
                 alignment = TextAnchor.UpperCenter,
                 padding = new RectOffset(0, 0, 4, 4)
             };
-
+    
             EditorGUI.LabelField(position, label, style);
         }
-
+    
         private void DrawSplitter(Rect position)
         {
             var rect = new Rect(position.x + 2, position.y + 22, position.width - 4, 2);
             var color = new Color(255f, 255f, 255f, 0.1f);
             EditorGUI.DrawRect(rect, color);
         }
-
+    
         private bool DrawButton(Rect position)
         {
             var rect = new Rect(position.x + position.width - 26, position.y + 32, 20, 20);
@@ -87,8 +105,8 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
             };
             return GUI.Button(rect, icon, style);
         }
-
-        private int DrawPopup(Rect position)
+    
+        private int DrawPopup(Rect position, SerializedProperty property)
         {
             var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
 
@@ -97,41 +115,40 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
             return EditorGUI.Popup(popupRect, GetSelectedIndex(), _displayedTypes, style);
         }
 
-        private Type GetSerializedType()
+        private void DrawPropertyField(Rect position, SerializedProperty property)
         {
-            if (string.IsNullOrEmpty(_serializedTypeProperty.stringValue)) return null;
-            return CachedTypes.GetType(_serializedTypeProperty.stringValue);
+            EditorGUI.indentLevel++;
+
+            var rect = new Rect(position.x, position.y + 52, position.width - 6, 16);
+            EditorGUI.PropertyField(rect, property, true);
+
+            EditorGUI.indentLevel--;
         }
-        
+
         private int GetSelectedIndex()
         {
             if (_selectedType == null) return 0;
             
-            return Array.IndexOf(_types, _selectedType) + 1;
+            return Array.IndexOf(_implementations, _selectedType) + 1;
         }
 
-        private void RefreshTypes()
+        private void RefreshImplementations()
         {
-            if (attribute is SelectTypeAttribute implAttribute)
-            {
-                _types = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
-                    t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object))).ToArray();
-            }
+            _implementations = ReflectionUtility.GetSubtypes(_baseType, 
+                t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object))).ToArray();
         }
-
+    
         private void RefreshDisplayedTypes()
         {
-            _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
-            
-            if (attribute is SelectTypeAttribute selectTypeAttr)
+            if (attribute is SerializeReferencePickerAttribute pickerAttr)
             {
-                switch (selectTypeAttr.Representation)
+                switch (pickerAttr.Representation)
                 {
                     case Representation.Name:
-                        _displayedTypes = _types.Select(t => t.Name).Prepend(ClassTypeReference.NoneElement).ToArray();
+                        _displayedTypes = _implementations.Select(t => t.Name).Prepend("(None)").ToArray();
                         break;
                     case Representation.FullName:
-                        _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
+                        _displayedTypes = _implementations.Select(t => t.FullName).Prepend("(None)").ToArray();
                         break;
                 }
             }

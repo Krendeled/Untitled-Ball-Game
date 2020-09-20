@@ -426,7 +426,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 110
+  m_fontSize: 110.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -546,7 +546,7 @@ MonoBehaviour:
   ShowAnimation:
     id: 0
   HideAnimation:
-    id: 0
+    id: 1
   closePauseButton: {fileID: 1402546826}
   restartButton: {fileID: 14150983}
   goToMenuButton: {fileID: 1719758681}
@@ -554,7 +554,17 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: , ns: , asm: }
+      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      data:
+        _alphaStart: 0
+        _alphaEnd: 1
+        _duration: 1
+    00000001:
+      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      data:
+        _alphaStart: 1
+        _alphaEnd: 0
+        _duration: 1
 --- !u!114 &97176978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,14 +581,24 @@ MonoBehaviour:
   ShowAnimation:
     id: 0
   HideAnimation:
-    id: 0
+    id: 1
   restartLevelButton: {fileID: 1696712898}
   nextLevelButton: {fileID: 1405663255}
   goToMenuButton: {fileID: 1305669763}
   references:
     version: 1
     00000000:
-      type: {class: , ns: , asm: }
+      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      data:
+        _alphaStart: 0
+        _alphaEnd: 1
+        _duration: 0.5
+    00000001:
+      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      data:
+        _alphaStart: 1
+        _alphaEnd: 0
+        _duration: 0.5
 --- !u!114 &97176979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -977,7 +997,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 178.45
+  m_fontSize: 178.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1236,7 +1256,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 177.15
+  m_fontSize: 177.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1522,7 +1542,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 110
+  m_fontSize: 110.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1705,7 +1725,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 186.7
+  m_fontSize: 187.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2078,7 +2098,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 110
+  m_fontSize: 110.6
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2766,7 +2786,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 275.65
+  m_fontSize: 275.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3140,7 +3160,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 178.25
+  m_fontSize: 178.3
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

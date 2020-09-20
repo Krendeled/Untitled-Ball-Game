@@ -9,38 +9,47 @@ namespace UntitledBallGame.UI.Screens
     {
         [SerializeField] protected GameObject screen;
         
-        [SelectType(typeof(IAnimation)), SerializeReference]
+        [SerializeReference, SerializeReferencePicker]
         protected IAnimation ShowAnimation;
-        [SelectType(typeof(IAnimation)), SerializeReference]
+        [SerializeReference, SerializeReferencePicker]
         protected IAnimation HideAnimation;
 
         protected virtual void Awake()
         {
             screen.SetActive(false);
+            if (ShowAnimation != null) ShowAnimation.Target = screen;
+            if (HideAnimation != null) HideAnimation.Target = screen;
         }
 
-        public virtual object Show(Action onComplete = null)
+        public object Show(Action onComplete = null)
         {
-            if (ShowAnimation.Duration == 0)
+            if (ShowAnimation == null || ShowAnimation.Duration == 0)
             {
                 screen.SetActive(true);
+                onComplete?.Invoke();
+                return null;
             }
-            else if (!screen.activeSelf)
+            
+            if (!screen.activeSelf)
             {
-                ShowAnimation?.Play(onComplete);
+                screen.SetActive(true);
+                ShowAnimation.Play(onComplete);
                 return new WaitForSecondsRealtime(ShowAnimation.Duration);
             }
 
             return null;
         }
 
-        public virtual object Hide(Action onComplete = null)
+        public object Hide(Action onComplete = null)
         {
-            if (HideAnimation.Duration == 0)
+            onComplete += () => screen.SetActive(false);
+            if (HideAnimation == null || HideAnimation.Duration == 0)
             {
-                screen.SetActive(false);
+                onComplete?.Invoke();
+                return null;
             }
-            else if (screen.activeSelf)
+
+            if (screen.activeSelf)
             {
                 HideAnimation?.Play(onComplete);
                 return new WaitForSecondsRealtime(HideAnimation.Duration);

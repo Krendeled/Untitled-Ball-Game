@@ -1,10 +1,29 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEditor;
 
 namespace UntitledBallGame.Editor
 {
     public static class EditorExtensions
     {
+        public static Type GetManagedReferenceFieldType(this SerializedProperty prop)
+        {
+            var method = Type.GetType("UnityEditor.ScriptAttributeUtility, UnityEditor")
+                .GetMethod("GetFieldInfoAndStaticTypeFromProperty",
+                    BindingFlags.NonPublic | BindingFlags.Static);
+            object[] parameters = {prop, null};
+            method.Invoke(null, parameters);
+
+            return (Type) parameters[1];
+        }
+
+        public static Type GetManagedReferenceFullType(this SerializedProperty prop)
+        {
+            var obj = prop.GetTargetObject();
+            if (obj == null) return null;
+            return obj.GetType();
+        }
+
         public static object GetTargetObject(this SerializedProperty prop)
         {
             if (prop == null) return null;

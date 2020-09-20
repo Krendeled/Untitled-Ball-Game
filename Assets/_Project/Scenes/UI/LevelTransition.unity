@@ -228,9 +228,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screen: {fileID: 866600468}
-  showDuration: 0.5
-  hideDuration: 0.5
-  canvasGroup: {fileID: 866600473}
+  ShowAnimation:
+    id: 0
+  HideAnimation:
+    id: 1
+  references:
+    version: 1
+    00000000:
+      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      data:
+        _alphaStart: 0
+        _alphaEnd: 1
+        _duration: 0.7
+    00000001:
+      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      data:
+        _alphaStart: 1
+        _alphaEnd: 0
+        _duration: 0.7
 --- !u!4 &866319383
 Transform:
   m_ObjectHideFlags: 0
