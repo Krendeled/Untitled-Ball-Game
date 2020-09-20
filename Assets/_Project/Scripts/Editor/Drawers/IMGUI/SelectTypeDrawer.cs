@@ -12,7 +12,7 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
     [CustomPropertyDrawer(typeof(SelectTypeAttribute))]
     public class SelectTypeDrawer : PropertyDrawer
     {
-        private Type[] _implementations;
+        private Type[] _types;
         private SerializedProperty _serializedTypeProperty;
         private string[] _displayedTypes;
         
@@ -23,10 +23,8 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (_implementations == null) RefreshImplementations();
-            
             _serializedTypeProperty = property.FindPropertyRelative("_serializedType");
-            if (_implementations.Contains(GetSerializedType()) == false)
+            if (_types.Contains(GetSerializedType()) == false)
                 _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
 
             using (new EditorGUI.PropertyScope(position, label, property))
@@ -35,13 +33,17 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
                 DrawTitle(position, label);
                 DrawSplitter(position);
                 
+                if (_types == null || DrawButton(position))
+                {
+                    RefreshTypes();
+                    RefreshDisplayedTypes();
+                }
+                
                 int i = DrawPopup(position);
                 if (i == 0)
                     _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
                 else
-                    _serializedTypeProperty.stringValue = _implementations[i - 1].AssemblyQualifiedName;
-
-                if (DrawButton(position)) RefreshImplementations();
+                    _serializedTypeProperty.stringValue = _types[i - 1].AssemblyQualifiedName;
             }
         }
 
@@ -71,6 +73,18 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
             EditorGUI.DrawRect(rect, color);
         }
 
+        private bool DrawButton(Rect position)
+        {
+            var rect = new Rect(position.x + position.width - 26, position.y + 32, 20, 20);
+            var icon = EditorGUIUtility.IconContent("d_Refresh");
+            var style = new GUIStyle(GUI.skin.button) 
+            {
+                padding = new RectOffset(0, 0, 0, 0), 
+                margin = new RectOffset(0, 0, 0, 0)
+            };
+            return GUI.Button(rect, icon, style);
+        }
+
         private int DrawPopup(Rect position)
         {
             var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
@@ -85,33 +99,25 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
             
             return EditorGUI.Popup(popupRect, selectedIndex, _displayedTypes, style);
         }
-        
-        private bool DrawButton(Rect position)
-        {
-            var rect = new Rect(position.x + position.width - 26, position.y + 32, 20, 20);
-            var icon = EditorGUIUtility.IconContent("d_Refresh");
-            var style = new GUIStyle(GUI.skin.button) 
-            {
-                padding = new RectOffset(0, 0, 0, 0), 
-                margin = new RectOffset(0, 0, 0, 0)
-            };
-            return GUI.Button(rect, icon, style);
-        }
-        
+
         private Type GetSerializedType()
         {
             if (string.IsNullOrEmpty(_serializedTypeProperty.stringValue)) return null;
             return CachedTypes.GetType(_serializedTypeProperty.stringValue);
         }
 
-        private void RefreshImplementations()
+        private void RefreshTypes()
         {
             if (attribute is SelectTypeAttribute implAttribute)
             {
-                _implementations = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
+                _types = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
                     t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object))).ToArray();
-                _displayedTypes = _implementations.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
             }
+        }
+
+        private void RefreshDisplayedTypes()
+        {
+            _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
         }
     }
 }

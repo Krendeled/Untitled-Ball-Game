@@ -12,7 +12,7 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
     {
         private ScriptableObject[] _assets;
         private SerializedProperty _serializedProperty;
-        private string[] _displayedTypes;
+        private string[] _displayedAssets;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -21,8 +21,6 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            if (_assets == null) RefreshAssets();
-            
             _serializedProperty = property;
             
             using (new EditorGUI.PropertyScope(position, label, property))
@@ -30,11 +28,15 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
                 DrawBackground(position);
                 DrawTitle(position, label);
                 DrawSplitter(position);
+
+                if (_assets == null || DrawButton(position))
+                {
+                    RefreshAssets();
+                    RefreshDisplayedAssets();
+                }
                 
                 int i = DrawPopup(position);
                 _serializedProperty.objectReferenceValue = _assets[i];
-                
-                if (DrawButton(position)) RefreshAssets();
             }
         }
         
@@ -64,21 +66,6 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
             EditorGUI.DrawRect(rect, color);
         }
 
-        private int DrawPopup(Rect position)
-        {
-            var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
-            
-            var selectedIndex = 0;
-            
-            var obj = _serializedProperty.objectReferenceValue;
-            if (obj != null) 
-                selectedIndex = Array.IndexOf(_displayedTypes, obj.name);
-            
-            var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
-
-            return EditorGUI.Popup(popupRect, selectedIndex, _displayedTypes, style);
-        }
-        
         private bool DrawButton(Rect position)
         {
             var rect = new Rect(position.x + position.width - 26, position.y + 32, 20, 20);
@@ -90,15 +77,34 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
             };
             return GUI.Button(rect, icon, style);
         }
-        
+
+        private int DrawPopup(Rect position)
+        {
+            var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
+            
+            var selectedIndex = 0;
+            
+            var obj = _serializedProperty.objectReferenceValue;
+            if (obj != null) 
+                selectedIndex = Array.IndexOf(_displayedAssets, obj.name);
+            
+            var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
+
+            return EditorGUI.Popup(popupRect, selectedIndex, _displayedAssets, style);
+        }
+
         private void RefreshAssets()
         {
             if (attribute is SelectScriptableObjectAttribute attr)
             {
                 var paths = AssetDatabase.FindAssets($"t:{attr.ScriptableType}").Select(a => AssetDatabase.GUIDToAssetPath(a));
                 _assets = paths.Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>).ToArray();
-                _displayedTypes = _assets.Select(a => a.name).ToArray();
             }
+        }
+
+        private void RefreshDisplayedAssets()
+        {
+            _displayedAssets = _assets.Select(a => a.name).ToArray();
         }
     }
 }
