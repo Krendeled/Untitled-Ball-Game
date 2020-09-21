@@ -19,9 +19,13 @@ namespace UntitledBallGame.Editor
 
         public static Type GetManagedReferenceFullType(this SerializedProperty prop)
         {
-            var obj = prop.GetTargetObject();
-            if (obj == null) return null;
-            return obj.GetType();
+            var typename = prop.managedReferenceFullTypename;
+
+            if (string.IsNullOrEmpty(typename))
+                return null;
+
+            var assemblyAndType = prop.managedReferenceFullTypename.Split(' ');
+            return Type.GetType($"{assemblyAndType[1]}, {assemblyAndType[0]}");
         }
 
         public static object GetTargetObject(this SerializedProperty prop)

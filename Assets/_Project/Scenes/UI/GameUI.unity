@@ -554,17 +554,13 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      type: {class: FadeIn, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
       data:
-        _alphaStart: 0
-        _alphaEnd: 1
-        _duration: 1
+        _duration: 0.5
     00000001:
-      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      type: {class: FadeOut, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
       data:
-        _alphaStart: 1
-        _alphaEnd: 0
-        _duration: 1
+        _duration: 0.5
 --- !u!114 &97176978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,16 +584,12 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      type: {class: FadeIn, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
       data:
-        _alphaStart: 0
-        _alphaEnd: 1
         _duration: 0.5
     00000001:
-      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      type: {class: FadeOut, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
       data:
-        _alphaStart: 1
-        _alphaEnd: 0
         _duration: 0.5
 --- !u!114 &97176979
 MonoBehaviour:

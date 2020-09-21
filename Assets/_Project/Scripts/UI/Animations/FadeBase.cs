@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UntitledBallGame.UI.Animations
 {
-    public class FadeAnimation : IAnimation
+    public abstract class FadeBase : IAnimation
     {
         public GameObject Target { get; set; }
         public float Duration => _duration;
@@ -26,14 +26,9 @@ namespace UntitledBallGame.UI.Animations
                 return _canvasGroup;
             }
         }
+        
+        [SerializeField] protected float _duration;
 
-        [Range(0, 1), SerializeField] private float _alphaStart;
-        [Range(0, 1), SerializeField] private float _alphaEnd;
-        [SerializeField] private float _duration;
-
-        public void Play(Action onComplete = null)
-        {
-            CanvasGroup.DOFade(_alphaEnd, _duration).From(_alphaStart).OnComplete(() => { onComplete?.Invoke(); });
-        }
+        public abstract void Play(Action onComplete = null);
     }
 }
