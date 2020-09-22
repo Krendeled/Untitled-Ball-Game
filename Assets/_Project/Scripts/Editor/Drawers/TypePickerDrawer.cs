@@ -9,14 +9,14 @@ using UntitledBallGame.Utility;
 namespace UntitledBallGame.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(ClassTypeReference))]
-    [CustomPropertyDrawer(typeof(SelectTypeAttribute))]
-    public class SelectTypeDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(TypePickerAttribute))]
+    public class TypePickerDrawer : PropertyDrawer
     {
         private Type[] _types;
         private SerializedProperty _serializedTypeProperty;
         private string[] _displayedTypes;
         private Type _selectedType;
-        
+
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             return 58;
@@ -36,19 +36,63 @@ namespace UntitledBallGame.Editor.Drawers
                 {
                     RefreshTypes();
                     RefreshDisplayedTypes();
-                    _selectedType = GetSerializedType();
+                    _selectedType = CachedTypes.GetType(_serializedTypeProperty.stringValue);
                 }
-                
-                if (_types.Contains(_selectedType) == false)
-                    _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
-                
-                int i = DrawPopup(position);
-                if (i == 0)
-                    _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
-                else
-                    _serializedTypeProperty.stringValue = _types[i - 1].AssemblyQualifiedName;
+
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    int i = DrawPopup(position, GetSelectedIndex());
+
+                    if (check.changed)
+                    {
+                        if (i == 0)
+                        {
+                            _serializedTypeProperty.stringValue = ClassTypeReference.NoneElement;
+                            _selectedType = null;
+                        }
+                        else
+                        {
+                            _serializedTypeProperty.stringValue = _types[i - 1].AssemblyQualifiedName;
+                            _selectedType = _types[i - 1];
+                        }
+                    }
+                }
             }
         }
+        
+        private void RefreshTypes()
+        {
+            if (attribute is TypePickerAttribute implAttribute)
+            {
+                _types = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
+                    t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object))).ToArray();
+            }
+        }
+
+        private void RefreshDisplayedTypes()
+        {
+            _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
+            
+            if (attribute is TypePickerAttribute selectTypeAttr)
+            {
+                switch (selectTypeAttr.Representation)
+                {
+                    case Representation.Name:
+                        _displayedTypes = _types.Select(t => t.Name).Prepend(ClassTypeReference.NoneElement).ToArray();
+                        break;
+                    case Representation.FullName:
+                        _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
+                        break;
+                }
+            }
+        }
+
+        private int GetSelectedIndex()
+        {
+            return _selectedType == null ? 0 : Array.IndexOf(_types, _selectedType) + 1;
+        }
+
+        #region Draw calls
 
         private void DrawBackground(Rect position)
         {
@@ -88,53 +132,15 @@ namespace UntitledBallGame.Editor.Drawers
             return GUI.Button(rect, icon, style);
         }
 
-        private int DrawPopup(Rect position)
+        private int DrawPopup(Rect position, int selectedIndex)
         {
             var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
 
             var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
             
-            return EditorGUI.Popup(popupRect, GetSelectedIndex(), _displayedTypes, style);
+            return EditorGUI.Popup(popupRect, selectedIndex, _displayedTypes, style);
         }
 
-        private Type GetSerializedType()
-        {
-            if (string.IsNullOrEmpty(_serializedTypeProperty.stringValue)) return null;
-            return CachedTypes.GetType(_serializedTypeProperty.stringValue);
-        }
-        
-        private int GetSelectedIndex()
-        {
-            if (_selectedType == null) return 0;
-            
-            return Array.IndexOf(_types, _selectedType) + 1;
-        }
-
-        private void RefreshTypes()
-        {
-            if (attribute is SelectTypeAttribute implAttribute)
-            {
-                _types = ReflectionUtility.GetSubtypes(implAttribute.FieldType,
-                    t => !t.IsAbstract && !t.IsSubclassOf(typeof(UnityEngine.Object))).ToArray();
-            }
-        }
-
-        private void RefreshDisplayedTypes()
-        {
-            _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
-            
-            if (attribute is SelectTypeAttribute selectTypeAttr)
-            {
-                switch (selectTypeAttr.Representation)
-                {
-                    case Representation.Name:
-                        _displayedTypes = _types.Select(t => t.Name).Prepend(ClassTypeReference.NoneElement).ToArray();
-                        break;
-                    case Representation.FullName:
-                        _displayedTypes = _types.Select(t => t.FullName).Prepend(ClassTypeReference.NoneElement).ToArray();
-                        break;
-                }
-            }
-        }
+        #endregion
     }
 }

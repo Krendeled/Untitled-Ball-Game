@@ -4,13 +4,8 @@ using UnityEngine;
 
 namespace UntitledBallGame.UI.Animations
 {
-    public abstract class FadeBase : IAnimation
+    public abstract class AlphaBase : AnimationBase
     {
-        public GameObject Target { get; set; }
-        public float Duration => _duration;
-
-        private CanvasGroup _canvasGroup;
-
         public CanvasGroup CanvasGroup
         {
             get
@@ -26,9 +21,6 @@ namespace UntitledBallGame.UI.Animations
                 return _canvasGroup;
             }
         }
-        
-        [SerializeField] protected float _duration;
-
-        public abstract void Play(Action onComplete = null);
+        private CanvasGroup _canvasGroup;
     }
 }

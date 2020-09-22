@@ -9,6 +9,8 @@ namespace UntitledBallGame.Serialization
 
         public static Type GetType(string typeName)
         {
+            if (string.IsNullOrEmpty(typeName)) return null;
+            
             if (TypeCache.TryGetValue(typeName, out Type type)) return type;
 
             type = Type.GetType(typeName);

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UntitledBallGame.Serialization;
-using UntitledBallGame.Utility;
+using ReflectionUtility = UntitledBallGame.Utility.ReflectionUtility;
 
 namespace UntitledBallGame.Editor.Drawers
 {
@@ -14,20 +15,25 @@ namespace UntitledBallGame.Editor.Drawers
         private Type _selectedType;
         private Type[] _implementations;
         private string[] _displayedTypes;
-        private bool _propertyVisible;
-        
+
         private float _mainPropertyHeight;
+
+        private readonly List<SerializedProperty> _subProperties = new List<SerializedProperty>();
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             float totalHeight = 58;
-            if (_propertyVisible)
-                return totalHeight + _mainPropertyHeight + 6;
-            return totalHeight;
+            return totalHeight + _mainPropertyHeight;
         }
     
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            if (property.propertyType != SerializedPropertyType.ManagedReference)
+            {
+                Debug.LogError($"{property.name} is not a managed reference.");
+                return;
+            }
+            
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 DrawBackground(position);
@@ -36,48 +42,52 @@ namespace UntitledBallGame.Editor.Drawers
 
                 if (_fieldType == null)
                 {
-                    _selectedType = property.GetManagedReferenceFullType();
                     _fieldType = property.GetManagedReferenceFieldType();
                     if (_fieldType == null)
                     {
-                        Debug.LogError("_baseType is null.");
+                        Debug.LogError("Field type is null.");
                         return;
                     }
                 }
-                
+
                 if (_implementations == null || DrawButton(GetRefreshButtonRect(position)))
                 {
                     RefreshImplementations();
                     RefreshDisplayedTypes();
                 }
-
-                int i = DrawPopup(GetPopupRect(position));
-                if (i == 0)
-                {
-                    property.managedReferenceValue = null;
-                }
-                else if (_implementations[i - 1] != _selectedType)
-                {
-                    property.managedReferenceValue = Activator.CreateInstance(_implementations[i - 1]);
-                }
                 
+                _selectedType = property.GetManagedReferenceFullType();
+
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    int i = DrawPopup(GetPopupRect(position), GetSelectedIndex());
+
+                    if (check.changed)
+                    {
+                        if (i == 0)
+                        {
+                            property.managedReferenceValue = null;
+                            _selectedType = null;
+                            _subProperties.Clear();
+                        }
+                        else
+                        {
+                            _selectedType = _implementations[i - 1];
+                            property.managedReferenceValue = Activator.CreateInstance(_selectedType);
+                        }
+                    }
+                }
+
                 if (_selectedType != null)
                 {
-                    DrawPropertyFields(GetPropertyRect(position), property);
-                    _propertyVisible = true;
+                    RefreshSubProperties(property);
+                    _mainPropertyHeight = DrawPropertyFields(GetPropertyRect(position));
                 }
                 else
                 {
-                    _propertyVisible = false;
+                    _mainPropertyHeight = 0;
                 }
             }
-        }
-
-        private int GetSelectedIndex()
-        {
-            if (_selectedType == null) return 0;
-            
-            return Array.IndexOf(_implementations, _selectedType) + 1;
         }
 
         private void RefreshImplementations()
@@ -103,6 +113,31 @@ namespace UntitledBallGame.Editor.Drawers
                         break;
                 }
             }
+        }
+
+        private void RefreshSubProperties(SerializedProperty property)
+        {
+            var currentProperty = property.Copy();
+            int startDepth = currentProperty.depth;
+
+            if (currentProperty.propertyType != SerializedPropertyType.ManagedReference || !currentProperty.NextVisible(true)) 
+                return;
+
+            _subProperties.Clear();
+            
+            while (currentProperty.depth > startDepth)
+            {
+                _subProperties.Add(currentProperty.Copy());
+                if (currentProperty.NextVisible(false) == false) return;
+            }
+        }
+
+        private int GetSelectedIndex()
+        {
+            if (_selectedType == null) return 0;
+            int i = Array.IndexOf(_implementations, _selectedType);
+            if (i == -1) return 0;
+            return i + 1;
         }
 
         #region Get rects
@@ -183,32 +218,25 @@ namespace UntitledBallGame.Editor.Drawers
             return GUI.Button(rect, icon, style);
         }
     
-        private int DrawPopup(Rect rect)
+        private int DrawPopup(Rect rect, int selectedIndex)
         {
             var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
-            return EditorGUI.Popup(rect, GetSelectedIndex(), _displayedTypes, style);
+            return EditorGUI.Popup(rect, selectedIndex, _displayedTypes, style);
         }
 
-        private void DrawPropertyFields(Rect rect, SerializedProperty property)
+        private float DrawPropertyFields(Rect rect)
         {
-            int startDepth = property.depth;
-            _mainPropertyHeight = 0;
-            
-            if (property.propertyType != SerializedPropertyType.ManagedReference || !property.NextVisible(true)) 
-                return;
+            float height = EditorGUIUtility.standardVerticalSpacing;
 
-            while (property.depth > startDepth)
+            foreach (var subProperty in _subProperties)
             {
-                var path = property.propertyPath;
-                EditorGUI.PropertyField(rect, property);
-
-                float height = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
-                rect.y += height;
-                _mainPropertyHeight += height;
-
-                if (property.NextVisible(false) == false)
-                    return;
+                EditorGUI.PropertyField(rect, subProperty);
+                float h = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+                rect.y += h;
+                height += h;
             }
+
+            return height;
         }
 
         #endregion

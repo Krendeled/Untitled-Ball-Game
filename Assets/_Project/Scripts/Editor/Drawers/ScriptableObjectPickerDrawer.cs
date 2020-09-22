@@ -7,12 +7,13 @@ using UntitledBallGame.Serialization;
 
 namespace UntitledBallGame.Editor.Drawers
 {
-    [CustomPropertyDrawer(typeof(SelectScriptableObjectAttribute))]
-    public class SelectScriptableObjectDrawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(ScriptableObjectPickerAttribute))]
+    public class ScriptableObjectPickerDrawer : PropertyDrawer
     {
         private ScriptableObject[] _assets;
         private SerializedProperty _serializedProperty;
         private string[] _displayedAssets;
+        private ScriptableObject _selectedObject;
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
@@ -33,13 +34,39 @@ namespace UntitledBallGame.Editor.Drawers
                 {
                     RefreshAssets();
                     RefreshDisplayedAssets();
+                    _selectedObject = _serializedProperty.objectReferenceValue as ScriptableObject;
                 }
                 
-                int i = DrawPopup(position);
-                _serializedProperty.objectReferenceValue = _assets[i];
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    int i = DrawPopup(position, GetSelectedIndex());
+                    
+                    if (check.changed) _serializedProperty.objectReferenceValue = _assets[i];
+                }
             }
         }
         
+        private void RefreshAssets()
+        {
+            if (attribute is ScriptableObjectPickerAttribute attr)
+            {
+                var paths = AssetDatabase.FindAssets($"t:{attr.ScriptableType}").Select(a => AssetDatabase.GUIDToAssetPath(a));
+                _assets = paths.Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>).ToArray();
+            }
+        }
+
+        private void RefreshDisplayedAssets()
+        {
+            _displayedAssets = _assets.Select(a => a.name).ToArray();
+        }
+
+        private int GetSelectedIndex()
+        {
+            return _selectedObject == null ? 0 : Array.IndexOf(_assets, _selectedObject);
+        }
+
+        #region Draw calls
+
         private void DrawBackground(Rect position)
         {
             var color = new Color(0f, 0f, 0f, 0.2f);
@@ -78,33 +105,15 @@ namespace UntitledBallGame.Editor.Drawers
             return GUI.Button(rect, icon, style);
         }
 
-        private int DrawPopup(Rect position)
+        private int DrawPopup(Rect position, int selectedIndex)
         {
             var popupRect = new Rect(position.x + 6, position.y + 32, position.width - 38, 20);
-            
-            var selectedIndex = 0;
-            
-            var obj = _serializedProperty.objectReferenceValue;
-            if (obj != null) 
-                selectedIndex = Array.IndexOf(_displayedAssets, obj.name);
-            
+
             var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
 
             return EditorGUI.Popup(popupRect, selectedIndex, _displayedAssets, style);
         }
 
-        private void RefreshAssets()
-        {
-            if (attribute is SelectScriptableObjectAttribute attr)
-            {
-                var paths = AssetDatabase.FindAssets($"t:{attr.ScriptableType}").Select(a => AssetDatabase.GUIDToAssetPath(a));
-                _assets = paths.Select(AssetDatabase.LoadAssetAtPath<ScriptableObject>).ToArray();
-            }
-        }
-
-        private void RefreshDisplayedAssets()
-        {
-            _displayedAssets = _assets.Select(a => a.name).ToArray();
-        }
+        #endregion
     }
 }

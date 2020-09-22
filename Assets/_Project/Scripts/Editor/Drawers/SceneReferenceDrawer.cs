@@ -12,40 +12,52 @@ namespace UntitledBallGame.Editor.Drawers
         private SerializedProperty _sceneAssetProperty;
         private string[] _scenePaths;
         private string[] _displayedScenes;
+        private string _selectedScenePath;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            _sceneAssetProperty = property.FindPropertyRelative("_sceneAsset");
+            
             if (_scenePaths == null)
             {
                 _scenePaths = SceneHelper.GetScenePaths().ToArray();
                 _displayedScenes = _scenePaths.Select(SceneHelper.GetNameFromPath).ToArray();
+                _selectedScenePath = (property.GetTargetObject() as SceneReference).ScenePath;
             }
-            
-            _sceneAssetProperty = property.FindPropertyRelative("_sceneAsset");
 
             using (new EditorGUI.PropertyScope(position, label, property))
             {
-                int i = DrawPopup(position, property);
-                if (i == -1) return;
-                _sceneAssetProperty.objectReferenceValue = EditorSceneHelper.GetAssetFromPath(_scenePaths[i]);
+                using (var check = new EditorGUI.ChangeCheckScope())
+                {
+                    int i = DrawPopup(position, GetSelectedIndex(property));
+
+                    if (check.changed)
+                    {
+                        _sceneAssetProperty.objectReferenceValue = EditorSceneHelper.GetAssetFromPath(_scenePaths[i]);
+                        _selectedScenePath = _scenePaths[i];
+                    }
+                }
             }
         }
-        
-        private int DrawPopup(Rect position, SerializedProperty property)
+
+        private int GetSelectedIndex(SerializedProperty property)
+        {
+            if (_sceneAssetProperty.objectReferenceValue != null && property.GetTargetObject() is SceneReference sceneReference)
+                return Array.IndexOf(_scenePaths, sceneReference.ScenePath);
+            return 0;
+        }
+
+        #region Draw calls
+
+        private int DrawPopup(Rect position, int selectedIndex)
         {
             var popupRect = new Rect(position.x + 6, position.y, position.width - 6, 20);
-            
-            var selectedIndex = 0;
-            
-            if (_sceneAssetProperty.objectReferenceValue != null)
-            {
-                if (property.GetTargetObject() is SceneReference sceneReference)
-                    selectedIndex = Array.IndexOf(_scenePaths, sceneReference.ScenePath);
-            }
-            
+
             var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
             
             return EditorGUI.Popup(popupRect, selectedIndex, _displayedScenes, style);
         }
+
+        #endregion
     }
 }

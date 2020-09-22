@@ -25,14 +25,16 @@ public class SceneProfile : ScriptableObject
 				loadedScenes[i] = SceneManager.GetSceneAt(i);
 			}
 
-			foreach (var scene in scenes)
+			for (int i = 0; i < scenes.Count; i++)
 			{
-				var s = EditorSceneManager.OpenScene(scene.ScenePath, OpenSceneMode.Additive);
+				var s = EditorSceneManager.OpenScene(scenes[i].ScenePath, OpenSceneMode.Additive);
+				if (i == 0)
+					SceneManager.SetActiveScene(s);
 			}
 
 			foreach (var scene in loadedScenes)
 			{
-				if (scene.path != SceneManager.GetActiveScene().path)
+				if (scenes.FirstOrDefault(s => s.ScenePath == scene.path) == null)
 					EditorSceneManager.CloseScene(scene, true);
 			}
 		}
@@ -44,14 +46,16 @@ public class SceneProfile : ScriptableObject
 				loadedScenes[i] = SceneManager.GetSceneAt(i);
 			}
 		
-			foreach (var scene in scenes)
+			for (int i = 0; i < scenes.Count; i++)
 			{
-				SceneManager.LoadSceneAsync(scene.ScenePath, LoadSceneMode.Additive);
+				SceneManager.LoadSceneAsync(scenes[i].ScenePath, LoadSceneMode.Additive);
+				if (i == 0)
+					SceneManager.SetActiveScene(SceneManager.GetSceneByPath(scenes[i].ScenePath));
 			}
 
 			foreach (var scene in loadedScenes)
 			{
-				if (scene.path != SceneManager.GetActiveScene().path)
+				if (scenes.FirstOrDefault(s => s.ScenePath == scene.path) == null)
 					SceneManager.UnloadSceneAsync(scene);
 			}
 		}

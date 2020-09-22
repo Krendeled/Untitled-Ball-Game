@@ -3,7 +3,7 @@ using DG.Tweening;
 
 namespace UntitledBallGame.UI.Animations
 {
-    public class FadeIn : FadeBase
+    public class FadeIn : AlphaBase
     {
         public override void Play(Action onComplete = null)
         {

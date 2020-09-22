@@ -4,11 +4,11 @@ using UnityEngine;
 namespace UntitledBallGame.Serialization
 {
     [AttributeUsage(AttributeTargets.Field)]
-    public class SelectScriptableObjectAttribute : PropertyAttribute
+    public class ScriptableObjectPickerAttribute : PropertyAttribute
     {
         public Type ScriptableType { get; }
         
-        public SelectScriptableObjectAttribute(Type scriptableType)
+        public ScriptableObjectPickerAttribute(Type scriptableType)
         {
             ScriptableType = scriptableType;
         }
