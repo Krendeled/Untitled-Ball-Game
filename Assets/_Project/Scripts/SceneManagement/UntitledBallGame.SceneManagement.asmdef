@@ -1,7 +1,8 @@
 {
     "name": "UntitledBallGame.SceneManagement",
     "references": [
-        "GUID:eb24f738a410e5441b30069c9c286268"
+        "GUID:eb24f738a410e5441b30069c9c286268",
+        "GUID:d178ac4b10764814c8ae876ce6354d19"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MainMenuProfile
   m_EditorClassIdentifier: 
   scenes:
-  - _sceneAsset: {fileID: 102900000, guid: 0438a4893be1ca54897d4e535b906d8b, type: 3}
-    _scenePath: Assets/_Project/Scenes/UI/MainMenu.unity
+    array:
+    - _sceneAsset: {fileID: 102900000, guid: 0438a4893be1ca54897d4e535b906d8b, type: 3}
+      _scenePath: Assets/_Project/Scenes/UI/MainMenu.unity

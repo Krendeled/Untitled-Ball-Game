@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Malee.List;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,8 +11,9 @@ using UntitledBallGame.SceneManagement;
 [CreateAssetMenu(fileName = "NewSceneProfile", menuName = "Scene Profile")]
 public class SceneProfile : ScriptableObject
 {
-	public List<SceneReference> scenes = new List<SceneReference>();
-	
+	[Reorderable]
+	public SceneReferenceArray scenes;
+
 #if UNITY_EDITOR
 	public void LoadScenes()
 	{
@@ -54,4 +57,7 @@ public class SceneProfile : ScriptableObject
 		}
 	}
 #endif
+	
+	[Serializable]
+	public class SceneReferenceArray : ReorderableArray<SceneReference> {}
 }

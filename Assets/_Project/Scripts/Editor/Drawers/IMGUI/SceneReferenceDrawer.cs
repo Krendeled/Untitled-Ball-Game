@@ -43,7 +43,9 @@ namespace UntitledBallGame.Editor.Drawers.IMGUI
                     selectedIndex = Array.IndexOf(_scenePaths, sceneReference.ScenePath);
             }
             
-            return EditorGUI.Popup(popupRect, selectedIndex, _displayedScenes);
+            var style = new GUIStyle(EditorStyles.popup) {fixedHeight = 20};
+            
+            return EditorGUI.Popup(popupRect, selectedIndex, _displayedScenes, style);
         }
     }
 }
