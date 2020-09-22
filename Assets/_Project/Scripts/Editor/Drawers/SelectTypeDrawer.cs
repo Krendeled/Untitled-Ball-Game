@@ -6,7 +6,7 @@ using UnityEngine;
 using UntitledBallGame.Serialization;
 using UntitledBallGame.Utility;
 
-namespace UntitledBallGame.Editor.Drawers.IMGUI
+namespace UntitledBallGame.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(ClassTypeReference))]
     [CustomPropertyDrawer(typeof(SelectTypeAttribute))]

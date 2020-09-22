@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UntitledBallGame.SceneManagement;
 
-namespace UntitledBallGame.Editor.Drawers.IMGUI
+namespace UntitledBallGame.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(SceneReference))]
     public class SceneReferenceDrawer : PropertyDrawer

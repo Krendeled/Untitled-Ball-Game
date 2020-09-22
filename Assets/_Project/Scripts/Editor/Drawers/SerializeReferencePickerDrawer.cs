@@ -5,7 +5,7 @@ using UnityEngine;
 using UntitledBallGame.Serialization;
 using UntitledBallGame.Utility;
 
-namespace UntitledBallGame.Editor.Drawers.IMGUI
+namespace UntitledBallGame.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(SerializeReferencePickerAttribute))]
     public class SerializeReferencePickerDrawer : PropertyDrawer

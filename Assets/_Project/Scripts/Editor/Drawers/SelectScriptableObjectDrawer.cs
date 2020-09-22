@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using UntitledBallGame.Serialization;
 
-namespace UntitledBallGame.Editor.Drawers.IMGUI
+namespace UntitledBallGame.Editor.Drawers
 {
     [CustomPropertyDrawer(typeof(SelectScriptableObjectAttribute))]
     public class SelectScriptableObjectDrawer : PropertyDrawer
