@@ -39,7 +39,8 @@ namespace UntitledBallGame.Editor
                 EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
                 if (change != PlayModeStateChange.EnteredPlayMode) return;
 
-                SceneManager.LoadSceneAsync(0);
+                if (SceneManager.GetSceneByBuildIndex(0).isLoaded == false)
+                    SceneManager.LoadSceneAsync(0);
             }
         }
     }
