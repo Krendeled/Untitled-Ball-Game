@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -16,23 +17,36 @@ namespace UntitledBallGame
 {
     public class GameManager : SingletonBehaviour<GameManager>
     {
-        [TypePicker(typeof(GlobalStateBase)), SerializeField]
-        private ClassTypeReference _initialState;
-        [ScriptableObjectPicker(typeof(SceneProfile)), SerializeField]
-        private SceneProfile _sceneProfile;
+#if UNITY_EDITOR
+        public static Type editorInitialState;
+        public static SceneProfile editorSceneProfile;
+#endif
+        
+        [TypePicker(typeof(GlobalStateBase))]
+        public ClassTypeReference initialState;
+        [ScriptableObjectPicker(typeof(SceneProfile))]
+        public SceneProfile sceneProfile;
 
         private StateMachine<GlobalStateBase> _stateMachine;
 
         private void Awake()
         {
+#if UNITY_EDITOR
+            if (editorInitialState != null)
+                initialState = editorInitialState;
+            if (editorSceneProfile != null)
+                sceneProfile = editorSceneProfile;
+#endif
             DontDestroyOnLoad(this);
             DOTween.Init();
-            
-            _sceneProfile.LoadScenes();
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
+            enabled = false;
+            yield return sceneProfile.LoadScenesRuntime();
+            enabled = true;
+            
             var inputManager = InputManager.Instance;
 
             TransitionScreen transitionScreen = null;
@@ -87,7 +101,7 @@ namespace UntitledBallGame
             _stateMachine.AddState(new WinState(globalContext));
             _stateMachine.AddState(gameplayState);
             
-            _stateMachine.SetState(_initialState);
+            _stateMachine.SetState(initialState);
         }
 
         private void Update()

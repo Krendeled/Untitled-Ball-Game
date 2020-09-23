@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b9f4c531332e6f4fa9fd68ba3ba0aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialState:
+  initialState:
     _serializedType: UntitledBallGame.GlobalStates.MainMenuState, UntitledBallGame,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-  _sceneProfile: {fileID: 11400000, guid: b65ed609d29bd8d4bae543d9755052ee, type: 2}
+  sceneProfile: {fileID: 11400000, guid: b65ed609d29bd8d4bae543d9755052ee, type: 2}
 --- !u!4 &1306216670
 Transform:
   m_ObjectHideFlags: 0

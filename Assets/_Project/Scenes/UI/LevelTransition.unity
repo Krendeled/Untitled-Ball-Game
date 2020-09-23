@@ -235,17 +235,61 @@ MonoBehaviour:
   references:
     version: 1
     00000000:
-      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      type: {class: FadeIn, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
       data:
-        _alphaStart: 0
-        _alphaEnd: 1
-        _duration: 0.7
+        _duration: 0.6
+        _curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     00000001:
-      type: {class: FadeAnimation, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
+      type: {class: FadeOut, ns: UntitledBallGame.UI.Animations, asm: UntitledBallGame.UI}
       data:
-        _alphaStart: 1
-        _alphaEnd: 0
-        _duration: 0.7
+        _duration: 0.6
+        _curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
 --- !u!4 &866319383
 Transform:
   m_ObjectHideFlags: 0

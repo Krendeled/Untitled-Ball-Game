@@ -30,7 +30,7 @@ namespace UntitledBallGame.Editor.Editors
                 
                 _scenesList.DoLayoutList();
                 if (DrawLoadButton())
-                    _targetObject.LoadScenes();
+                    _targetObject.LoadScenesEditor();
                 
                 serializedObject.ApplyModifiedProperties();
             }

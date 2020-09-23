@@ -7,7 +7,7 @@ namespace UntitledBallGame.UI.Animations
     {
         public override void Play(Action onComplete = null)
         {
-            CanvasGroup.DOFade(1, _duration).From(0).OnComplete(() => { onComplete?.Invoke(); });
+            CanvasGroup.DOFade(0, _duration).From(1).SetEase(_curve).OnComplete(() => { onComplete?.Invoke(); });
         }
     }
 }

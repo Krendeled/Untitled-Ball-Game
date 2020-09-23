@@ -7,6 +7,15 @@ namespace UntitledBallGame.Editor
 {
     public static class AssetHelper
     {
+        public static T GetScriptableObject<T>(string name)
+            where T : ScriptableObject
+        {
+            var paths = AssetDatabase.FindAssets($"t:{typeof(T).Name}").Select(a => AssetDatabase.GUIDToAssetPath(a));
+            var assetPath = paths.FirstOrDefault(p => p.EndsWith(name + ".asset"));
+            if (string.IsNullOrEmpty(assetPath)) return null;
+            return AssetDatabase.LoadAssetAtPath<T>(assetPath);
+        }
+        
         public static string GetPathFromLayoutName(string name)
         {
             return GetPathFromTypeAndName("VisualTreeAsset", name);

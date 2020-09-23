@@ -83,10 +83,6 @@ namespace UntitledBallGame.Editor.Drawers
                     RefreshSubProperties(property);
                     _mainPropertyHeight = DrawPropertyFields(GetPropertyRect(position));
                 }
-                else
-                {
-                    _mainPropertyHeight = 0;
-                }
             }
         }
 
@@ -226,7 +222,7 @@ namespace UntitledBallGame.Editor.Drawers
 
         private float DrawPropertyFields(Rect rect)
         {
-            float height = EditorGUIUtility.standardVerticalSpacing;
+            float height = _subProperties == null ? 0 : EditorGUIUtility.standardVerticalSpacing;
 
             foreach (var subProperty in _subProperties)
             {
