@@ -295,42 +295,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundLayer:
-    Sprite: {fileID: 578846176322065143}
-    EffectValue: {x: 1, y: 1}
-    YThreshold: -100000
-    Transform: {fileID: 0}
-    StartPos: {x: 0, y: 0}
-    Size: {x: 0, y: 0}
-    XRepeat: 0
+    sprite: {fileID: 578846176322065143}
+    effectValue: {x: 1, y: 1}
+    yThreshold: -100000
   layers:
-  - Sprite: {fileID: 578846175298699350}
-    EffectValue: {x: 0.75, y: 0.9}
-    YThreshold: 0
-    Transform: {fileID: 0}
-    StartPos: {x: 13.6, y: 0}
-    Size: {x: 27.2, y: 8}
-    XRepeat: 2
-  - Sprite: {fileID: 578846175241161804}
-    EffectValue: {x: 0.5, y: 0.7}
-    YThreshold: 0
-    Transform: {fileID: 578846175241161805}
-    StartPos: {x: 27.200003, y: 0}
-    Size: {x: 27.2, y: 8}
-    XRepeat: 1
-  - Sprite: {fileID: 578846177112541488}
-    EffectValue: {x: 0.25, y: 0.4}
-    YThreshold: 0
-    Transform: {fileID: 578846177112541489}
-    StartPos: {x: 27.200003, y: 0}
-    Size: {x: 27.2, y: 8}
-    XRepeat: 1
-  - Sprite: {fileID: 578846175859390607}
-    EffectValue: {x: 0, y: 0}
-    YThreshold: 0
-    Transform: {fileID: 578846175859390604}
-    StartPos: {x: 40.800003, y: 0}
-    Size: {x: 27.2, y: 8}
-    XRepeat: 1
+  - sprite: {fileID: 578846175298699350}
+    effectValue: {x: 0.75, y: 0.9}
+    yThreshold: 0
+  - sprite: {fileID: 578846175241161804}
+    effectValue: {x: 0.5, y: 0.7}
+    yThreshold: 0
+  - sprite: {fileID: 578846177112541488}
+    effectValue: {x: 0.25, y: 0.4}
+    yThreshold: 0
+  - sprite: {fileID: 578846175859390607}
+    effectValue: {x: 0.25, y: 0.4}
+    yThreshold: 0
 --- !u!1 &578846176322065141
 GameObject:
   m_ObjectHideFlags: 0

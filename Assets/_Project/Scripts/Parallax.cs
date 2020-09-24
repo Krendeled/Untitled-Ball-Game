@@ -1,31 +1,22 @@
 ﻿using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace UntitledBallGame.UI
+namespace UntitledBallGame
 {
     public class Parallax : MonoBehaviour
     {
-#pragma warning disable CA2235 // Mark all non-serializable fields
         [System.Serializable]
         private class ParallaxLayer
         {
-            [FormerlySerializedAs("Sprite")] public SpriteRenderer sprite;
-            [FormerlySerializedAs("EffectValue")] public Vector2 effectValue;
-            [FormerlySerializedAs("YThreshold")] public float yThreshold;
-
-            [FormerlySerializedAs("Transform")] [HideInInspector]
-            public Transform transform;
-
-            [FormerlySerializedAs("StartPos")] [HideInInspector]
-            public Vector2 startPos;
-
-            [FormerlySerializedAs("Size")] [HideInInspector]
-            public Vector2 size;
-
-            [FormerlySerializedAs("XRepeat")] [HideInInspector]
-            public float xRepeat;
+            public SpriteRenderer sprite;
+            public Vector2 effectValue;
+            public float yThreshold;
+            
+            public Transform Transform { get; set; }
+            public Vector2 StartPos { get; set; }
+            public Vector2 Size { get; set; }
+            public float XRepeat { get; set; }
         }
-#pragma warning restore CA2235 // Mark all non-serializable fields
 
         [SerializeField] private ParallaxLayer backgroundLayer;
         [SerializeField] private ParallaxLayer[] layers;
@@ -51,37 +42,38 @@ namespace UntitledBallGame.UI
                 return;
             }
 
-            backgroundLayer.startPos = Vector2.zero;
-            backgroundLayer.sprite.transform.position = Vector2.zero;
-            backgroundLayer.transform = backgroundLayer.sprite.transform;
-            backgroundLayer.xRepeat = 1;
-            backgroundLayer.size = backgroundLayer.sprite.bounds.size;
+            backgroundLayer.StartPos = Vector2.zero;
+            var spriteTransform = backgroundLayer.sprite.transform;
+            spriteTransform.position = Vector2.zero;
+            backgroundLayer.Transform = spriteTransform;
+            backgroundLayer.XRepeat = 1;
+            backgroundLayer.Size = backgroundLayer.sprite.bounds.size;
 
             for (int i = 0; i < layers.Length; i++)
             {
-                layers[i].startPos = Vector2.zero;
+                layers[i].StartPos = Vector2.zero;
                 layers[i].sprite.transform.position = Vector2.zero;
-                layers[i].transform = layers[i].sprite.transform;
-                layers[i].xRepeat = Mathf.CeilToInt(_levelBounds.Box.size.x / layers[i].sprite.bounds.size.x);
-                layers[i].size = new Vector2(layers[i].sprite.bounds.size.x * layers[i].xRepeat,
+                layers[i].Transform = layers[i].sprite.transform;
+                layers[i].XRepeat = Mathf.CeilToInt(_levelBounds.Box.size.x / layers[i].sprite.bounds.size.x);
+                layers[i].Size = new Vector2(layers[i].sprite.bounds.size.x * layers[i].XRepeat,
                     layers[i].sprite.bounds.size.y);
 
                 if (layers[i].effectValue.x != 1)
                 {
-                    if (layers[i].xRepeat > 1)
+                    if (layers[i].XRepeat > 1)
                     {
                         var parent = new GameObject(layers[i].sprite.gameObject.name);
                         parent.transform.position = Vector2.zero;
                         parent.transform.parent = transform;
-                        layers[i].transform = parent.transform;
+                        layers[i].Transform = parent.transform;
 
-                        float startX = layers[i].transform.position.x - layers[i].size.x / 2 +
+                        float startX = layers[i].Transform.position.x - layers[i].Size.x / 2 +
                                        layers[i].sprite.bounds.extents.x;
 
-                        for (int j = 0; j < layers[i].xRepeat; j++)
+                        for (int j = 0; j < layers[i].XRepeat; j++)
                         {
                             var newPos = new Vector2(startX + layers[i].sprite.bounds.size.x * j,
-                                layers[i].transform.position.y);
+                                layers[i].Transform.position.y);
                             if (j == 0)
                             {
                                 layers[i].sprite.transform.position = newPos;
@@ -100,14 +92,14 @@ namespace UntitledBallGame.UI
         private void LateUpdate()
         {
             var camBounds = _cameraController.CalculateCameraBounds();
-            Vector2 sizeDelta = camBounds.size / backgroundLayer.size;
+            Vector2 sizeDelta = camBounds.size / backgroundLayer.Size;
 
             if (Mathf.Max(sizeDelta.x, sizeDelta.y) != 1)
             {
                 if (sizeDelta.x > sizeDelta.y)
-                    backgroundLayer.transform.localScale = Vector2.one * sizeDelta.x;
+                    backgroundLayer.Transform.localScale = Vector2.one * sizeDelta.x;
                 else
-                    backgroundLayer.transform.localScale = Vector2.one * sizeDelta.y;
+                    backgroundLayer.Transform.localScale = Vector2.one * sizeDelta.y;
             }
 
             UpdateLayer(backgroundLayer);
@@ -124,16 +116,16 @@ namespace UntitledBallGame.UI
             float distX = _cameraController.CameraPosition.x * layer.effectValue.x;
             float distY = _cameraController.CameraPosition.y * layer.effectValue.y;
 
-            layer.transform.position = new Vector2(layer.startPos.x + distX,
+            layer.Transform.position = new Vector2(layer.StartPos.x + distX,
                 Mathf.Clamp(distY, layer.yThreshold, float.PositiveInfinity));
 
-            var quarter = layer.size.x / 4;
-            var half = layer.size.x / 2;
+            var quarter = layer.Size.x / 4;
+            var half = layer.Size.x / 2;
 
-            if (relativeX > layer.startPos.x + quarter)
-                layer.startPos = new Vector2(layer.startPos.x + half, layer.startPos.y);
-            else if (relativeX < layer.startPos.x - quarter)
-                layer.startPos = new Vector2(layer.startPos.x - half, layer.startPos.y);
+            if (relativeX > layer.StartPos.x + quarter)
+                layer.StartPos = new Vector2(layer.StartPos.x + half, layer.StartPos.y);
+            else if (relativeX < layer.StartPos.x - quarter)
+                layer.StartPos = new Vector2(layer.StartPos.x - half, layer.StartPos.y);
         }
     }
 }
