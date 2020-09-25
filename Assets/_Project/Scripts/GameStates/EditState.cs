@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UntitledBallGame.GlobalStates;
+using UntitledBallGame.UI;
 
 namespace UntitledBallGame.GameStates
 {
@@ -17,6 +20,21 @@ namespace UntitledBallGame.GameStates
 
             Context.GameUi.EditingScreen.Show();
 
+            var levelItems = Context.LevelItemManager.GetAll();
+            
+            if (levelItems == null || !levelItems.Any())
+                Debug.LogError("No level items found!");
+            
+            var levelItemDTOs = levelItems.Select(i => 
+                new LevelItemDTO
+                {
+                    Id = i.id,
+                    Icon = i.icon
+                });
+            
+            Context.GameUi.EditingScreen.CreateItemButtons(levelItemDTOs);
+            Context.GameUi.EditingScreen.ItemSelected += OnItemSelected;
+            
             if (Context.BallController.BallPosition != Context.BallSpawner.Position)
             {
                 Context.BallController.FreezeBall();
@@ -24,6 +42,12 @@ namespace UntitledBallGame.GameStates
             }
 
             Context.CameraController.TranslateTo(Context.BallController.BallPosition);
+        }
+
+        private void OnItemSelected(int itemId)
+        {
+            Debug.Log($"{itemId} is selected");
+            // TODO: logic for dragging item into the world
         }
 
         public override void Exit()

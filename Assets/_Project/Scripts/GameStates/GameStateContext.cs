@@ -11,6 +11,7 @@ namespace UntitledBallGame.GameStates
         public GameManager GameManager { get; set; }
         public InputManager InputManager { get; set; }
         public GameSceneManager SceneManager { get; set; }
+        public LevelItemManager LevelItemManager { get; set; }
 
         public BallSpawner BallSpawner { get; set; }
         public BallController BallController { get; set; }

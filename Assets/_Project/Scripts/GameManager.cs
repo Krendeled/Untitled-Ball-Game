@@ -63,6 +63,8 @@ namespace UntitledBallGame
             _stateMachine = new StateMachine<GlobalStateBase>();
             var gameStateMachine = new StateMachine<GameStateBase>();
 
+            var levelItemManager = new LevelItemManager();
+            
             var globalContext = new GlobalStateContext
             {
                 StateMachine = _stateMachine,
@@ -75,7 +77,8 @@ namespace UntitledBallGame
                 StateMachine = gameStateMachine,
                 GameManager = this,
                 InputManager = inputManager,
-                SceneManager = gameSceneManager
+                SceneManager = gameSceneManager,
+                LevelItemManager = levelItemManager
             };
 
             GameStateContext SetupContextCallback()
